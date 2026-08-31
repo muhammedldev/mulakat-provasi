@@ -41,6 +41,10 @@ export default function App() {
   const [activeChallenge, setActiveChallenge] = useState<ChallengePayload | null>(null);
   const [mode, setMode] = useState<AppMode>(() => (initialChallenge() ? "challenge-intro" : "menu"));
   const [classicStart, setClassicStart] = useState<{ seed?: string; sector?: SectorId }>({});
+  const [rapidSector, setRapidSector] = useState<SectorId | undefined>(undefined);
+  // "classic" veya "rapid" seçildiğinde araya giren Sektör Seç ekranının hangi
+  // moda geri döneceğini takip eder.
+  const [pendingSectorMode, setPendingSectorMode] = useState<"classic" | "rapid" | null>(null);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
   useEffect(() => {
@@ -129,22 +133,34 @@ export default function App() {
           <ModeSelectScreen
             onBack={backToMenu}
             onSelect={(selected) => {
-              if (selected === "classic") setMode("sector-select");
-              else setMode(selected);
+              if (selected === "classic" || selected === "rapid") {
+                setPendingSectorMode(selected);
+                setMode("sector-select");
+              } else {
+                setMode(selected);
+              }
             }}
           />
         )}
 
         {mode === "sector-select" && (
           <SectorSelectScreen
+            badge={pendingSectorMode === "rapid" ? "⚡ Seri Mülakat" : "🎭 Klasik Mülakat"}
             onBack={() => setMode("select")}
-            onSelect={(sector) => startClassic(undefined, sector)}
+            onSelect={(sector) => {
+              if (pendingSectorMode === "rapid") {
+                setRapidSector(sector);
+                setMode("rapid");
+              } else {
+                startClassic(undefined, sector);
+              }
+            }}
           />
         )}
 
         {mode === "terms" && <TermGlobeMode onExit={backToMenu} onAchievement={pushToast} />}
 
-        {mode === "rapid" && <RapidInterviewMode onExit={backToMenu} onAchievement={pushToast} />}
+        {mode === "rapid" && <RapidInterviewMode sector={rapidSector} onExit={backToMenu} onAchievement={pushToast} />}
 
         {mode === "classic" && (
           <ClassicGameContainer

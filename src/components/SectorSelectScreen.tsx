@@ -4,9 +4,11 @@ import { playClick } from "../utils/sound";
 import type { SectorId } from "../types";
 
 export default function SectorSelectScreen({
+  badge = "🎭 Klasik Mülakat",
   onSelect,
   onBack,
 }: {
+  badge?: string;
   onSelect: (sector?: SectorId) => void;
   onBack: () => void;
 }) {
@@ -17,7 +19,7 @@ export default function SectorSelectScreen({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="intro-badge">🎭 Klasik Mülakat</div>
+      <div className="intro-badge">{badge}</div>
       <h1>Bir sektöre göre pratik yapmak ister misin?</h1>
       <p className="intro-text">
         Seçtiğin sektöre özel birkaç soru genel havuza karışır — geri kalanı yine aynı, kapsamlı

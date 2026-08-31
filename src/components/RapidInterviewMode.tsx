@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { buildRapidQuestions, type RapidCategory, type RapidOption, type RapidQuestion } from "../data/rapidQuestions";
-import type { Difficulty } from "../types";
+import type { Difficulty, SectorId } from "../types";
 import TimerBar from "./TimerBar";
 import SparkleBurst from "./SparkleBurst";
 import SpeakButton from "./SpeakButton";
@@ -53,14 +53,16 @@ function resultProfile(accuracy: number, composure: number) {
 }
 
 export default function RapidInterviewMode({
+  sector,
   onExit,
   onAchievement,
 }: {
+  sector?: SectorId;
   onExit: () => void;
   onAchievement: (text: string) => void;
 }) {
   const [phase, setPhase] = useState<Phase>("intro");
-  const [questions] = useState<RapidQuestion[]>(() => buildRapidQuestions());
+  const [questions] = useState<RapidQuestion[]>(() => buildRapidQuestions(sector));
   const [index, setIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [composure, setComposure] = useState(100);

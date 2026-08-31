@@ -1,5 +1,6 @@
 import { questionPool } from "./questions";
-import type { Difficulty } from "../types";
+import { sectorQuestionPool } from "./sectorQuestions";
+import type { Difficulty, SectorId } from "../types";
 
 export type RapidCategory = "uygulama" | "teorik" | "vaka" | "psikoloji";
 
@@ -419,8 +420,18 @@ function shuffle<T>(arr: T[]): T[] {
   return copy;
 }
 
-function fromClassicPool(category: "uygulama" | "teorik", n: number): RapidQuestion[] {
-  const picked = shuffle(questionPool.filter((q) => q.type === category)).slice(0, n);
+function fromClassicPool(category: "uygulama" | "teorik", n: number, sector?: SectorId): RapidQuestion[] {
+  // Sektör seçildiyse (yalnızca "uygulama" kategorisinde geçerli — sektör
+  // soruları hep bu tipte) önce sektöre özel soruları yerleştir, kalan
+  // slotları her zamanki gibi genel havuzdan doldur — bkz. `buildGameQuestions`
+  // (data/questions.ts) ile aynı desen.
+  const sectorMatches =
+    sector && category === "uygulama"
+      ? shuffle(sectorQuestionPool.filter((q) => q.sector === sector)).slice(0, n)
+      : [];
+  const remaining = n - sectorMatches.length;
+  const genericMatches = shuffle(questionPool.filter((q) => q.type === category)).slice(0, remaining);
+  const picked = [...sectorMatches, ...genericMatches];
   return picked.map((q) => ({
     id: q.id,
     category,
@@ -440,9 +451,9 @@ function withShuffledOptions(questions: RapidQuestion[]): RapidQuestion[] {
   return questions.map((q) => ({ ...q, options: shuffle(q.options) }));
 }
 
-export function buildRapidQuestions(): RapidQuestion[] {
+export function buildRapidQuestions(sector?: SectorId): RapidQuestion[] {
   const mix = [
-    ...fromClassicPool("uygulama", 4),
+    ...fromClassicPool("uygulama", 4, sector),
     ...fromClassicPool("teorik", 4),
     ...withShuffledOptions(shuffle(vakaQuestions).slice(0, 4)),
     ...withShuffledOptions(shuffle(psikolojiQuestions).slice(0, 4)),

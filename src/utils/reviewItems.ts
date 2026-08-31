@@ -1,4 +1,5 @@
 import { questionPool } from "../data/questions";
+import { sectorQuestionPool } from "../data/sectorQuestions";
 import { vakaQuestions, psikolojiQuestions } from "../data/rapidQuestions";
 import { termCards } from "../data/terms";
 import { getMistakeMap } from "./mistakes";
@@ -36,7 +37,10 @@ export function getReviewItems(): ReviewItem[] {
   const items: ReviewItem[] = [];
 
   ids.forEach((id) => {
-    const classic = questionPool.find((q) => q.id === id);
+    // Sektöre özel sorular da (data/sectorQuestions.ts) yapısal olarak
+    // klasik sorularla birebir aynı — Zayıf Noktalarım'da kaybolmamaları için
+    // aynı havuzda aranıyor.
+    const classic = [...questionPool, ...sectorQuestionPool].find((q) => q.id === id);
     if (classic) {
       items.push({
         id: classic.id,
