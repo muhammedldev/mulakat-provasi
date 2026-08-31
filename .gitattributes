@@ -1,0 +1,9 @@
+# Satır sonlarını tüm platformlarda tutarlı tut (Windows'ta CRLF <-> LF
+# uyarılarını önler) — depoda her zaman LF, checkout'ta işletim sistemine göre.
+* text=auto eol=lf
+
+# İkili dosyalar diff/satır-sonu dönüşümünden muaf.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

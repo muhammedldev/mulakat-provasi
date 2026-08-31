@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# public/ içine görsel varlık üretirken (og-image, PWA ikonları vb.) kullanılan
+# geçici canvas render sayfaları — commit'ten önce elle silinmeyi unutursa diye.
+public/_*.html
