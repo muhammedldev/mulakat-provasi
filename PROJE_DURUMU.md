@@ -1,6 +1,22 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (14. tur).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (16. tur).**
+
+## Git/dokümantasyon revizyonu + Android (Capacitor) iskeleti (2026-08-31, 15-16. tur)
+
+**Önemli davranış notu:** Bu turdan itibaren kullanıcı **"push atma, ben GitHub Desktop'tan pushlayacağım"** dedi — yani commit/push benim tarafımdan yapılmıyor, değişiklikler çalışma dizininde bırakılıyor, kullanıcı GitHub Desktop üzerinden kendisi commit+push ediyor. **Yeni bir sohbette bu projede dosya değiştirirken, aksi açıkça söylenmedikçe bu davranışı (commit/push yapma, sadece dosyaları hazırla) sürdür.**
+
+**15. tur — README/lisans/metadata revizyonu:** `README.md` tamamen yeniden yazıldı (eskisi Vite'ın varsayılan şablon metniydi, projeyle alakasızdı) — canlı link, tüm özellikler, teknoloji yığını, kurulum, proje yapısı ağacı, gizlilik notu. `LICENSE` (MIT, `adayim-cv` ile tutarlı), `package.json`'a `description`/`license`/`repository`/`homepage` alanları, `.gitattributes` (CRLF uyarılarını önlemek için) eklendi.
+
+**16. tur — Android uygulaması (Capacitor):** Kullanıcı "ayrı bir uygulama" istedi, netleştirme sonrası **mobil (Android)** olduğu anlaşıldı. [Capacitor](https://capacitorjs.com/) ile kuruldu:
+- `@capacitor/core`, `@capacitor/android`, `@capacitor/ios`, `@capacitor/cli` yüklendi; `capacitor.config.ts` (`appId: com.muhammedldev.mulakatprovasi`, `webDir: dist`) oluşturuldu.
+- `npx cap add android` ile tam bir Android Studio projesi (`android/`) scaffold edildi.
+- `assets/` klasöründe kaynak görseller (`icon.png`, `icon-foreground.png`, `icon-background.png`, `splash.png`) `favicon.svg`'den canvas ile üretildi (koyu lacivert marka arka planı + logo), `@capacitor/assets generate --android` ile tüm yoğunluk/boyutlara (123 dosya, mipmap-*/drawable-*) otomatik üretildi.
+- **Bulunan gerçek bug:** Capacitor'ın varsayılan `android/app/src/main/res/values/styles.xml`'i `@color/colorPrimary`/`colorPrimaryDark`/`colorAccent`'a referans veriyordu ama hiçbir yerde tanımlı değildi — derleme hatası verirdi. Yeni `android/app/src/main/res/values/colors.xml` eklenerek (uygulamanın gerçek `--accent`/koyu tema renkleriyle) düzeltildi.
+- `package.json`'a `android:sync` / `android:open` script'leri eklendi, README'ye "Mobil uygulama (Android)" bölümü işlendi.
+- **iOS derlemesi bu ortamda (Windows) yapılamaz** (Xcode gerektirir, sadece Mac'te çalışır) — `@capacitor/ios` paketi kuruldu ama `ios/` platformu hiç eklenmedi, istenirse bir Mac'te `npx cap add ios` ile eklenebilir.
+- **Bu makinede Android SDK/JDK/Android Studio kurulu değil** — bu yüzden APK gerçekten derlenip/çalıştırılıp **hiç test edilmedi**. Kullanıcının `android/` klasörünü Android Studio ile açıp emülatörde/cihazda çalıştırması, ve Play Store'a yüklemek isterse kendi Google Play Developer hesabıyla (ücretli, $25 tek seferlik) imzalı bir `.aab` üretip yayınlaması gerekiyor — bunlar kullanıcının kendi yapması gereken adımlar, otomatikleştirilemedi/yapılmadı.
+- `npm run build`/`npm run lint` (web tarafı) temiz. **Hiçbir şey commit/push edilmedi**, kullanıcı GitHub Desktop'tan kendisi yapacak.
 
 ## Sosyal paylaşım kartı yeniden tasarımı (2026-08-31, aynı gün 14. tur)
 

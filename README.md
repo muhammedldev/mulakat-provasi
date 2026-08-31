@@ -29,6 +29,7 @@
 
 - [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vite.dev/) (build & dev server) + [vite-plugin-pwa](https://vite-pwa-org.netlify.app/)
+- [Capacitor](https://capacitorjs.com/) — aynı web kodunu bir Android uygulamasına saran native kabuk
 - [Framer Motion](https://motion.dev/) — animasyonlar
 - Harici bir UI kütüphanesi veya CSS framework yok — tasarım sistemi elle yazılmış CSS custom properties ile kurulu
 - Ses (SFX + arka plan müziği) tamamen Web Audio API ile prosedürel olarak üretiliyor, dış ses dosyası yok
@@ -64,11 +65,32 @@ npx tsx scripts/analyze-length-bias.ts
 
 Yeni bir soru/terim eklendiğinde, doğru cevabın metin uzunluğu bakımından şıklar arasında öne çıkmadığını (bilgiye gerek kalmadan tahmin edilebilir olmadığını) doğrular.
 
+## Mobil uygulama (Android)
+
+Proje [Capacitor](https://capacitorjs.com/) ile bir Android uygulamasına sarılabiliyor — aynı web kodu, native bir kabuk içinde çalışıyor. `android/` klasörü tam bir Android Studio projesi olarak repoda duruyor.
+
+```bash
+npm run android:sync   # web'i derler + dist/'i android projesine kopyalar, plugin'leri günceller
+npm run android:open   # yukarıdakini yapıp Android Studio'da projeyi açar (kurulu olmalı)
+```
+
+Android Studio içinde bir emülatörde veya gerçek cihazda "Run" ile çalıştırabilir, ya da **Build → Generate Signed App Bundle/APK** ile Google Play'e yüklenebilecek imzalı bir `.aab` üretebilirsiniz (Play Store'a yayınlamak için ayrı bir Google Play Developer hesabı gerekir).
+
+Uygulama ikonu ve splash screen `assets/` klasöründeki kaynak görsellerden (`icon.png`, `icon-foreground.png`, `icon-background.png`, `splash.png`) [@capacitor/assets](https://github.com/ionic-team/capacitor-assets) ile üretildi; marka görseli değişirse `assets/` içindekileri güncelleyip şunu çalıştırmak yeterli:
+
+```bash
+npx @capacitor/assets generate --android
+```
+
 ## Proje yapısı
 
 ```
 public/
   favicon.svg, pwa-*.png, og-image.jpg     PWA ve sosyal paylaşım varlıkları
+
+android/                                   Capacitor ile üretilen Android Studio projesi
+assets/                                    Android ikon/splash kaynak görselleri (icon.png vb.)
+capacitor.config.ts                        Capacitor uygulama kimliği ve web dizini ayarı
 
 scripts/
   analyze-length-bias.ts                   soru/terim şıklarında uzunluk önyargısı kontrolü
