@@ -1,6 +1,18 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (13. tur).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (14. tur).**
+
+## Sosyal paylaşım kartı yeniden tasarımı (2026-08-31, aynı gün 14. tur)
+
+Kullanıcı önceki OG görselinin ("jenerik daire ikonlar + düz metin") fazla sade olduğunu, "eğlenceli ama kurumsal imaja zarar vermeyecek" bir tasarım istedi. `public/og-image.jpg` yeniden yapıldı:
+
+- **Gerçek uygulama karakterleri kullanıldı** — jenerik ikonlar yerine, canlı siteden `InterviewerCharacter.tsx`'in ürettiği 3 karakterin (Elif/Can/Zeynep) gerçek SVG markup'ı DOM'dan çekilip (`outerHTML`), bir canvas sayfasında rasterize edilip kompozisyona yerleştirildi — hafif döndürülmüş/üst üste binen, Elif ortada ve büyük, Can/Zeynep yanlarda dinamik bir düzen.
+- **Oyunlaştırma ipuçları eklendi**: eğik sarı "🏆 14 Başarım" rozeti, karakterin üstünde "'Neden biz?' 🤔 / hazır mısın?" diyen bir konuşma balonu (mülakat/soru hissini doğrudan vurguluyor), kısa bir istatistik satırı ("🎭 3 mülakatçı · 📚 100+ soru · 🔥 günlük seri" — inandırıcılık/kurumsallık katıyor).
+- **Palet korundu**: koyu lacivert arka plan (uygulamanın kendi karanlık tema rengi) + mevcut persona renkleri (indigo/teal/bronz) + accent mavi gradyanlı başlık — kurumsal kimlikten hiç sapmadı.
+- **Karşılaşılan ve düzeltilen 2 gerçek bug (tasarım sürecinde)**: (1) elle yazılmış bir `roundRect(ctx,x,y,w,h,r)` yardımcı fonksiyonuna `r=999` verilmesi (bir "hap" rozet için), `w/h`'den büyük bir radius `arcTo` geometrisini bozup kartın yarısını kaplayan devasa, yanlış bir turuncu şekil oluşturdu — `r = Math.min(r, w/2, h/2)` clamp'i eklenerek düzeltildi (böyle bir canvas roundRect helper'ı tekrar yazılırsa bu clamp'i unutma). (2) İki ayrı `fillText` çağrısına sabit x-offset'leri (`60`, `300`) verilmesi başlık metninin ("Mülakat" + "Provası") üst üste binmesine yol açtı — `ctx.measureText()` ile gerçek genişlik ölçülüp bir sonraki parçanın x'i buna göre hesaplanarak düzeltildi (canvas'ta yan yana birden fazla renkli metin parçası çizerken asla sabit x-offset tahmin etme, her zaman ölç).
+- Ayrıca karakterlerin orijinal SVG'sindeki küçük "pencere/çerçeve" dekor elemanı (masaya bağlı değilken havada asılı gibi duruyordu) kompozisyondan çıkarıldı.
+
+**Boyut**: 91KB (önceki JPEG'den — 43KB'tan — biraz büyük, çünkü artık gerçek karakter illüstrasyonları + gradyanlar var, ama orijinal PNG'nin 774KB'ından hâlâ çok küçük). Hem yerelde hem canlıda (`https://mulakat-provasi.vercel.app/og-image.jpg`, fetch ile boyut doğrulanarak — **tarayıcının kendi HTTP önbelleği eski görseli gösterebilir, bir önceki sekmeyi kapatıp yeni bir sekmede açmak veya `fetch(..., {cache:'no-store'})` ile boyut kontrolü en güvenilir doğrulama yöntemi**, CDN/sunucu tarafında bir gecikme değildi) doğrulandı. `npm run build`/`npm run lint` temiz.
 
 ## ✅ GÜNCEL DURUM: Proje canlıda, "hazır" — bilinen açık bir görev yok
 
