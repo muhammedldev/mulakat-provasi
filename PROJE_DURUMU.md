@@ -17,6 +17,18 @@ Kullanıcı "iskelet güçlendirme" konuşmasının devamında 4 maddeyi sıral�
 
 `npm run build`/`npm run lint` her adımdan sonra temiz. **Not: bundan sonra `mulakat-provasi/`'de yapılan her `git push origin master`, birkaç saniye içinde https://mulakat-provasi.vercel.app adresine otomatik yansıyor** — yeni bir sohbette kod değişikliği yapılırsa kullanıcıya push edilip edilmeyeceği sorulmalı (önceki turlarda olduğu gibi push, "explicit permission" gerektiren bir eylem olarak ele alınmalı, ama bu oturumda kullanıcı zaten adım adım ilerlemeyi onaylamıştı).
 
+## Sektör Seç ekranında metin hizalama bug'ı (2026-08-31, aynı gün 12. tur)
+
+Kullanıcı canlı siteden bir ekran görüntüsü gönderip "burda bir yamukluk var" dedi. İlk bakışta (ve DOM ölçümleriyle) kart yükseklikleri/ikon konumları piksel piksel simetrik çıktı — bu yüzden AskUserQuestion ile netleştirme istendi, kullanıcı "'genel' başlığı diğerlerinden farklı şekilde sola yaslanmış" dedi.
+
+**Gerçek kök neden bulundu:** `.sector-select-card` bir `<button>` elementi — tarayıcının `<button>` için varsayılan `text-align: center` davranışını, yalnızca üst kapsayıcıda (`.sector-select-list`) tanımlı `text-align: left` kalıtım yoluyla override edemiyordu (bir elementin kendi üzerinde tanımlı bir değer — tarayıcı varsayılanı bile olsa — her zaman miras alınan değere üstün gelir). Sonuç: her kartın `.sector-select-info` bloğu kendi içeriğine göre daralıyordu (ör. "Genel" 283px, diğerleri 412px genişliğinde) ve metin bu dar/geniş kutu İÇİNDE ortalanıyordu — bu da "Genel" başlığının diğerlerinden farklı bir X konumunda görünmesine yol açıyordu. **Zaten `ModeSelectScreen`'in `.skill-path-row`'unda bu tam olarak doğru yapılmıştı** (`text-align: left` doğrudan buton üzerinde tanımlı) — `SectorSelectScreen` yazılırken bu detay atlanmış.
+
+**Düzeltme:** `.sector-select-card`'a doğrudan `text-align: left` eklendi, `.sector-select-info`'ya `flex: 1; min-width: 0;` eklendi (genişliğin her zaman tam satırı kaplaması için, `.skill-path-info` ile tutarlı). Hem yerelde hem canlıda (1920×1080 dahil, kullanıcının ekran görüntüsüyle aynı ölçek) DOM ölçümüyle doğrulandı: üç başlık da artık birebir aynı X konumunda.
+
+**Ders — gelecekte benzer bir "kart listesi" bileşeni yazılırken:** `<button>` elementleri tarayıcı varsayılanında `text-align: center` taşıyabilir; bir üst kapsayıcıda `text-align: left` tanımlamak YETMEZ, doğrudan `<button>` (veya `role="button"` olan) elementin kendisinde tanımlanmalı. Bu proje için artık `.sector-select-card` VE `.skill-path-row` ikisi de doğru — yeni bir buton-tabanlı liste eklenirse aynı deseni takip et.
+
+Bu arada, canlıda bir test sekmesinde `vite:preloadError` senaryosu (önceki turda düzeltilen stale-service-worker/chunk-404 sorunu) gerçekten tetiklendi ve otomatik yenileme sayesinde kullanıcı hiçbir şey fark etmeden kurtarıldı — düzeltmenin canlıda işe yaradığı ilk elden doğrulandı.
+
 ## Performans/mimari güçlendirme — code splitting (2026-08-30, aynı gün 10. tur)
 
 Kullanıcı "iskelet dahil güçlendirmemiz gereken yer var mı, çok kişi aynı anda oynayabilir mi" diye sordu. **Önemli netleştirme**: proje tamamen client-side (backend/veritabanı yok, `localStorage` per-device, meydan okuma bile URL üzerinden client-only) — bu mimaride "eşzamanlı kullanıcı" klasik anlamda bir darboğaz değil, statik dosya hosting'i (Netlify/Vercel/GitHub Pages) zaten sınırsız eşzamanlı ziyaretçiyi ek iş yapmadan kaldırır. Gerçek, somut iyileştirme fırsatı **bundle boyutuydu**: her build'de ">500KB chunk" uyarısı çıkıyordu (tüm uygulama tek JS dosyasında).
