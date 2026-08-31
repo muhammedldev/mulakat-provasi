@@ -894,7 +894,7 @@ export const questionPool: Question[] = [
     options: [
       {
         id: "a",
-        text: "Uzun uzun her hobini sırayla anlatmaya başlıyorsun, konuşman dakikalarca sürüyor, mülakatçının nazik işaretlerini fark etmiyorsun.",
+        text: "Uzun uzun her hobini tek tek sırayla anlatmaya başlıyorsun, konuşman dakikalarca sürüyor, mülakatçının nazikçe sözünü kesmeye çalıştığı işaretleri bile fark etmiyorsun.",
         deltas: { iletisim: -10 },
         feedback: "Sohbeti dengede tutmak önemli — bu tempo mülakatın akışını bozabilir.",
       },
@@ -966,7 +966,7 @@ export const questionPool: Question[] = [
     options: [
       {
         id: "a",
-        text: "Yeteneklerin sabit olduğunu, çaba göstermenin sonucu pek değiştirmediğini savunan bir görüş.",
+        text: "Yeteneklerin doğuştan sabit olduğunu, çaba göstermenin sonucu pek değiştirmediğini savunan, insanların ya yetenekli ya da yeteneksiz doğduğunu öne süren bir görüş.",
         deltas: { hazirlik: -10 },
         feedback: "Yanlış — tarif ettiğin aslında 'sabit zihniyet' (fixed mindset), gelişim zihniyetinin tam tersi.",
       },
@@ -1054,7 +1054,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "c",
-        text: "Bunun tam tersinin doğru olduğunu düşünüyorsun, bilgili insanların genelde daha özgüvenli olduğuna inanıyorsun.",
+        text: "Bunun tam tersinin doğru olduğunu düşünüyorsun, gerçekten bilgili ve deneyimli insanların iş hayatında her zaman daha yüksek ve tutarlı bir özgüvenle hareket ettiğine inanıyorsun.",
         deltas: { hazirlik: -5 },
         feedback: "Araştırmalar aslında tersini gösteriyor — deneyimli kişiler, konunun karmaşıklığını daha iyi gördüğü için bazen daha temkinli olabiliyor.",
       },
@@ -1093,7 +1093,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "c",
-        text: "İlk izlenimin her şeyi belirlediğini, geri kalan mülakatın bir önemi olmadığını düşünüyorsun.",
+        text: "İlk izlenimin her şeyi tamamen belirlediğini, geri kalan tüm mülakat sürecinin sonucu değiştirme ihtimalinin neredeyse hiç olmadığını düşünüyorsun.",
         deltas: { hazirlik: -5, iletisim: -5 },
         feedback: "Bu da aşırı bir yorum — ilk izlenim etkilidir ama tek belirleyici değildir, süreç boyunca kendini göstermeye devam edebilirsin.",
       },
@@ -2052,7 +2052,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "d",
-        text: "Hepsine 'şu an çok yoğunum, sonra bakarım' dersin, üçünü de bekletirsin.",
+        text: "Hepsine 'şu an çok yoğunum, sonra bakarım' dersin, üçünü de belirsiz bir şekilde bekletirsin, ne zaman döneceğini de söylemezsin.",
         deltas: { iletisim: -10 },
         feedback: "İletişimsiz bir bekletme, gönderenlerde belirsizlik ve güvensizlik yaratır.",
       },
@@ -2088,7 +2088,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "d",
-        text: "Yeni aracı hiç öğrenmeden, eski yöntemlerle işini bitirmenin bir yolunu bulursun.",
+        text: "Yeni aracı hiç öğrenmeden, hâlâ bildiğin eski yöntemlerle işini gizlice bitirmenin bir yolunu bulursun, kimseye de belli etmezsin.",
         deltas: { hazirlik: -15, iletisim: -5 },
         feedback: "Bu yaklaşım kısa vadede işe yarasa da ekip uyumunu ve verimliliği baltalar.",
       },
@@ -2161,7 +2161,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "d",
-        text: "Hatayı biraz küçülterek anlatırsın, ciddiyetini tam olarak yansıtmazsın, endişelendirmek istemezsin.",
+        text: "Hatayı biraz küçülterek anlatırsın, ciddiyetini tam olarak yansıtmazsın, kimseyi gereksiz yere endişelendirmek istemezsin.",
         deltas: { iletisim: -10 },
         feedback: "Durumu küçültmek, ekibin doğru karar almasını engelleyebilir.",
       },
@@ -2179,7 +2179,7 @@ export const questionPool: Question[] = [
     options: [
       {
         id: "a",
-        text: "Bunun adını bilmiyorsun ama iyi bir uygulama gibi geldiğini, rekabeti artıracağını düşünüyorsun.",
+        text: "Bunun adını hiç bilmediğini ama iyi bir uygulama gibi geldiğini, çalışanlar arası rekabeti artırıp genel performansı belirgin biçimde yükselteceğini düşünüyorsun.",
         deltas: { hazirlik: -10 },
         feedback: "Bu uygulamanın adı 'zorunlu sıralama' (stack ranking) — GE'de uzun süre kullanıldı ama iç rekabeti aşırı artırıp işbirliğini zedelediği için pek çok şirket tarafından terk edildi.",
       },
@@ -2236,7 +2236,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "d",
-        text: "Hiç devretmen gerekmediğini düşünürsün, senin işinin zaten kendi işini yapmak olduğuna inanırsın.",
+        text: "Hiç devretmen gerekmediğini düşünürsün, bir liderin asıl işinin her zaman kendi elleriyle en iyi bildiği işleri bizzat yapmaya devam etmek olduğuna kesin bir şekilde inanırsın.",
         deltas: { hazirlik: -10, iletisim: -5 },
         feedback: "Bir lider için yetki devri temel bir beceridir, tamamen kaçınmak sürdürülebilir değil.",
       },
@@ -3182,7 +3182,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "c",
-        text: "Muhtemelen bir-iki yıl içinde başka bir şirkete geçeceğini, uzun süre aynı yerde kalmayı sevmediğini söylersin.",
+        text: "Muhtemelen bir-iki yıl içinde başka bir şirkete geçeceğini, uzun süre aynı yerde kalmanın seni sıkacağını, değişimi sevdiğini açıkça söylersin.",
         deltas: { iletisim: -15 },
         feedback: "Bu cevap, işverene yatırımının kısa ömürlü olacağı sinyalini verir.",
       },
@@ -3255,7 +3255,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "c",
-        text: "Hiçbir tarih belirtmeden 'düşüneceğim' dersin, ne zaman döneceğini belirsiz bırakırsın.",
+        text: "Hiçbir tarih belirtmeden sadece 'düşüneceğim' dersin, ne zaman geri döneceğini de hiç belirtmeyip konuyu tamamen belirsiz ve açık bırakırsın.",
         deltas: { iletisim: -10 },
         feedback: "Belirsiz bırakmak, karşı tarafı bekletir ve sürecin yönetimini zorlaştırır.",
       },
@@ -3292,7 +3292,7 @@ export const questionPool: Question[] = [
       },
       {
         id: "c",
-        text: "Kayıptan Kaçınma (Loss Aversion)",
+        text: "Kayıptan Kaçınma Önyargısı (Loss Aversion Bias)",
         deltas: { hazirlik: -5 },
         feedback: "Yanlış — bu, kayıpların kazançlardan psikolojik olarak daha ağır hissedilmesiyle ilgilidir; batık maliyetle bağlantılı ama aynı kavram değildir.",
       },
@@ -3317,7 +3317,7 @@ export const questionPool: Question[] = [
     options: [
       {
         id: "a",
-        text: "Sadece unvan büyüklüğüne bakarsın, unvanı daha iyi görünen teklifi seçersin.",
+        text: "Sadece unvan büyüklüğüne bakarsın, kartvizitte daha etkileyici görünen unvanı taşıyan teklifi başka hiçbir şeye bakmadan hemen seçersin.",
         deltas: { hazirlik: -5 },
         feedback: "Unvan tek başına yeterli bir kriter değil — rol içeriği, büyüme fırsatı ve kültür en az onun kadar önemli.",
       },

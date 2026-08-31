@@ -1,22 +1,53 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (19. tur — "popüler uygulama eksikleri" listesinden 4 madde tamamlandı).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (19. tur — "popüler uygulama eksikleri" listesinden 5 madde tamamlandı).**
 
 ## ⏭️ SIRADAKİ ADIM
 
-18. turda kullanıcıya sunulan 10 maddelik "eksik özellik" listesinden (aşağıda korunuyor) **1, 2, 3, 5 tamamlandı** (bkz. "19. tur" bölümü). Kullanıcı "hepsini yapacağız" demişti — **kalan sırada 4 (soru havuzu genişletmesi) var**, onu takiben 6/7/8/9/10. Yeni sohbette kaldığın yer: madde 4'e başla (kapsam — kaç yeni soru/hangi kategoriler — henüz netleştirilmedi, muhtemelen AskUserQuestion gerekir), sonra sırayla devam et. Madde 6/8/9 kullanıcının kendi hesap/kayıt işlemlerini gerektirebilir, oraya gelince AskUserQuestion ile netleştir.
+18. turda kullanıcıya sunulan 10 maddelik "eksik özellik" listesinden (aşağıda korunuyor) **1, 2, 3, 4, 5, 7 tamamlandı** (bkz. "19. tur" bölümleri). Madde 6 kullanıcı tarafından **bilinçli olarak atlandı** (AskUserQuestion'da "Şimdilik atla" seçildi — Sentry/analytics hesabı istemiyor gibi görünüyor, tekrar sorulmadan atlanmalı). **Kalan sırada 8 (Play Store) var**, onu takiben 9/10. Madde 8/9 kullanıcının kendi hesap/kayıt işlemlerini gerektirebilir, oraya gelince AskUserQuestion ile netleştir.
+
+**Not:** Kullanıcı bu oturumda GitHub Desktop'tan periyodik olarak commit+push yapıyor (git log'da "Update questions.ts" gibi commit'ler görülüyor) — bu normal, ben commit/push yapmıyorum, o kendi yapıyor.
 
 **Orijinal liste (önerilen öncelik sırası):**
 1. ~~React ErrorBoundary eklenmesi~~ ✅ **TAMAMLANDI (19. tur)**
 2. ~~Local notification (günlük seri hatırlatıcısı)~~ ✅ **TAMAMLANDI (19. tur)** — sadece Android, kullanıcı web push'u reddetti (AskUserQuestion ile netleştirildi).
 3. ~~Android App Links (deep link)~~ ✅ **TAMAMLANDI (19. tur)**
-4. **Soru havuzu genişletmesi** — Klasik ~36 çekirdek soru, tekrar riski var. Kapsam netleştirilmeli (kaç yeni soru, hangi kategoriler — önceki turlardaki akademik kaynak standardı korunmalı, bkz. dosyanın alt kısımlarındaki "Kullanıcının projeyle ilgili kalıcı bağlamı" notu). **← SIRADA BURADAN DEVAM ET**
+4. ~~Soru havuzu genişletmesi~~ ✅ **TAMAMLANDI (19. tur)** — kullanıcı "orta çaplı" seçti (AskUserQuestion ile netleştirildi): 20 yeni klasik soru + 10 yeni terim.
 5. ~~Haptic (titreşim) geri bildirimi~~ ✅ **TAMAMLANDI (19. tur)**
-6. **Hata izleme/analytics (Sentry vb.)** — canlıda oluşan hataların görünür olması için. Ücretsiz plan/kurulum kullanıcıyla netleştirilmeli (Sentry hesabı açılması gerekebilir) — AskUserQuestion ile sor.
-7. **Otomatik test suite** (Vitest/Playwright) — regresyon riskini azaltır, en büyük efor gerektiren madde.
-8. **Play Store yayını** — imzalı release `.aab`, Play Console hesabı (kullanıcının kendi $25 ücretli hesabı gerekiyor, bu adım kullanıcının kendisinin yapması gereken kısımlar içeriyor).
+6. **Hata izleme/analytics (Sentry vb.)** — kullanıcı AskUserQuestion'da "Şimdilik atla" dedi, listede bırakılıyor ama tekrar sorulmadan başlanmamalı.
+7. ~~Otomatik test suite~~ ✅ **TAMAMLANDI (19. tur)** — Vitest, 48 test, `npm run test`.
+8. **Play Store yayını** **← SIRADA BURADAN DEVAM ET** — imzalı release `.aab`, Play Console hesabı (kullanıcının kendi $25 ücretli hesabı gerekiyor, bu adım kullanıcının kendisinin yapması gereken kısımlar içeriyor).
 9. **Global skor tablosu / sosyal karşılaştırma** — şu an sadece 1'e 1 link ile meydan okuma var, kapsam en belirsiz/büyük madde (muhtemelen bir backend gerektirir — projenin "tamamen client-side, backend yok" mimarisine aykırı, kullanıcıyla ayrıca konuşulmalı).
 10. **İnteraktif onboarding** — şu an statik "Nasıl Oynanır" modalı yeterli kabul edilebilir, en düşük öncelik.
+
+## 19. tur — 5. madde: soru havuzu genişletmesi (2026-08-31)
+
+Kullanıcı AskUserQuestion'da "orta çaplı" seçti: **20 yeni Klasik Mülakat sorusu** (Elif 7, Can 7, Zeynep 6 — kolay/orta/zor/efsane dengeli, zor+efsane'ye biraz daha ağırlık verildi çünkü havuzun en sığ kısımlarıydı) + **10 yeni Terim Küresi terimi** (kolay 2, orta 2, zor 3, efsane 3 — efsane önceden sadece 4 taneydi, en sığ kısımdı).
+
+**Kapsamlı çakışma kontrolü yapıldı (önemli ders):** İlk taslak içerik hazırlanırken (Groupthink, Halo Effect, Hawthorne, Quiet Hiring, Peter Principle gibi) kavramların çoğunun **zaten mevcut `terms.ts` kütüphanesinde olduğu** fark edildi (72 terimlik kütüphane oldukça kapsamlıydı) — bu yüzden içerik yazmadan ÖNCE hem `questions.ts` (72 mevcut id) hem `terms.ts` (62 mevcut id) taranıp tüm kavramlar çıkarıldı, YENİ 30 madde bu listeyle çapraz kontrol edilip gerçekten benzersiz kavramlar seçildi (ör. Dunning-Kruger, Pygmalion Etkisi, Milgram İtaat Deneyi, Hofstede'nin Kültürel Boyutları, Parkinson Kanunu, OKR, Sunk Cost Fallacy, Stack Ranking, Sandviç Nesil, Yetkinlik Tuzağı, OCB, Kariyer Platosu, Yapılandırılmış Mülakat, Employer of Record, Maaş Sıkışması). **Yeni bir soru/terim eklenirken bu adımı atlama** — büyük bir kütüphanede istemeden aynı kavramı iki kez eklemek kolay.
+
+Tüm kaynaklar gerçek, doğrulanabilir akademik/otoriter atıflar (ör. Kruger & Dunning 1999, Rosenthal & Jacobson 1968, Milgram 1963, Hofstede 1980, Tversky & Kahneman 1974, Arkes & Blumer 1985, Organ 1988, Levitt & March 1988, Miller 1981, Ference/Stoner/Warren 1977, Schmidt & Hunter 1998, Parkinson 1955, Doerr 2018) — mevcut projedeki akademik kaynak standardı (üniversite kullanımı için) korundu.
+
+**Uzunluk-önyargısı düzeltmesi (önceki turlarda kurulan disipline uyuldu):** İlk yazımda yeni 20 sorunun **15'inde**, yeni 10 terimin **8'inde** doğru cevap en uzun şıktı (`scripts/analyze-length-bias.ts` ile ölçüldü) — önceki turlarda düzeltilen aynı önyargı deseni yeni içerikte de tekrarlanmıştı. Yanlış şıklardan birine (anlamı/feedback'i bozmadan) kısa bir ek cümlecik eklenerek tek tek düzeltildi, birkaç tur ölçüm+düzeltme sonrası hedef banda ulaşıldı: **Klasik havuz %52→%39, Terim Küresi %44→%35** (ikisi de %35-45 hedef bandında). **Yeni içerik eklenirken bu script'i çalıştırmadan bitirilmiş sayma — ilk yazımda neredeyse her zaman doğru cevap daha uzun/detaylı çıkıyor, bu doğal bir yazım eğilimi.**
+
+`npm run build`/`npm run lint` temiz. id benzersizliği script ile doğrulandı (92 soru, 72 terim, hepsi benzersiz — 72+20 ve 62+10 ile eşleşiyor). Tarayıcıda smoke test yapıldı: Kaynakça ekranı yeni kaynaklarla hatasız açılıyor, konsol hatası yok. **Yeni maddelerin her biri tek tek oyunda karşılaşılarak görsel doğrulanmadı** (92 soru/72 terimden rastgele seçiliyor, hepsini tek tek görmek için çok sayıda oyun gerekirdi) — istenirse ileride ek bir doğrulama turu yapılabilir, ama statik analiz (id/format/uzunluk/build) + smoke test bu kapsam için yeterli kabul edildi.
+
+## 19. tur — 7. madde: otomatik test suite (2026-08-31)
+
+**Vitest** kuruldu (proje zaten Vite kullandığı için doğal seçim, sıfır ekstra bundler config). `vitest.config.ts` (jsdom ortamı — çoğu util `localStorage`/`window` kullanıyor), `src/test-setup.ts` (jsdom'un desteklemediği `window.matchMedia`'yı mockluyor — bu olmadan `settings.ts` import edilirken bile patlıyordu, hiçbir test çalışamıyordu). `package.json`'a `"test": "vitest run"` eklendi.
+
+**48 test, 6 dosya, hepsi geçiyor** (`npm run test`):
+- `utils/rng.test.ts` — seed determinizmi (aynı seed → aynı dizi, meydan okuma linkinin temeli), `shuffleSeeded` mutasyon yapmaması.
+- `utils/challenge.test.ts` — encode/decode round-trip, bozuk/elle değiştirilmiş `?duel=` linklerinin (geçersiz rank/sektör/skor) reddedilmesi, `readChallengeFromUrlString` (Android deep link okuma yolu).
+- `utils/modalStack.test.ts` — 19. turda bulunan geri tuşu bug'ının regresyon koruması: birden fazla modal açıkken `closeTopModal()` yalnızca en üsttekini kapatmalı.
+- `utils/storage.test.ts` — günlük seri mantığı (`recordDailyPlay`: ardışık gün +1, gün atlanırsa 1'e sıfırlanır, aynı gün tekrar çağrı no-op), XP/seviye hesaplama.
+- `data/questions.test.ts` / `data/terms.test.ts` — **veri bütünlüğü testleri**: id benzersizliği, her sorunun tam 1 `isBest` şıkkı olması, her mülakatçı/zorluk kombinasyonunun `buildGameQuestions`'ın çekeceği miktardan az olmaması, VE **uzunluk-önyargısı oranının otomatik ölçülmesi** (doğru cevabın tek başına en uzun şık olduğu oran %55'i geçerse test kırmızı yanar). Bu son test grubu, bu turda elle bulup düzelttiğimiz iki hata sınıfını (id çakışması, uzunluk-önyargısı) gelecekte otomatik yakalayacak.
+
+**Test yazarken bulunan gerçek bug'lar (üretim kodunda değil, test sürecinde):**
+1. `settings.ts`'in modül-seviyesi `window.matchMedia(...)` çağrısı jsdom'da patlıyordu (yukarıda bahsedildi) — test-setup.ts ile çözüldü, üretim kodu değişmedi (gerçek tarayıcılarda sorun yok).
+2. **Ciddi bir kendi test hatam**: `modalStack.test.ts`'in ilk hâlinde `while (closeTopModal())` döngüsü, `vi.fn()` mock'unun kendini stack'ten çıkarmaması yüzünden **sonsuz döngüye girip Node'un belleğini tüketip çöktü** (`JavaScript heap out of memory`). Kök neden: `closeTopModal()` kasıtlı olarak stack'ten kendisi çıkarmıyor — gerçek kullanımda (`Modal.tsx`) bu, verilen `onClose`'un state güncelleyip component'i unmount etmesine, o da `useEffect` cleanup'ının `popModal` çağırmasına bağlı. Testte bu zincirin taklit edilmesi (`vi.fn(() => popModal(close))`) gerekiyordu. **Ders: bir stack/queue APIsi "çağıranın kendi kendini temizlemesini" varsayıyorsa, test mock'ları da bu temizliği taklit etmeli — aksi halde `while` döngüleri sessizce sonsuza gidebilir.**
+
+`npm run build`/`npm run lint`/`npm run test` üçü de temiz. Yeni devDependency: `vitest`, `jsdom`. **Yeni bir soru/terim eklerken artık `npm run test` çalıştırmak yeterli** — `scripts/analyze-length-bias.ts`'i elle çalıştırmaya gerek kalmadı, veri bütünlüğü testleri aynı kontrolü otomatik yapıyor (ama script yine de detaylı sayısal döküm için silinmedi, dursun).
 
 ## 19. tur — 4 madde tamamlandı, hepsi emülatörde doğrulandı (2026-08-31)
 

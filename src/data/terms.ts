@@ -1022,7 +1022,7 @@ export const termCards: TermCard[] = [
     prompt: "'Employer of Record' (EOR) hizmeti ne işe yarar?",
     options: [
       "Bir şirketin, o ülkede kendi yasal varlığını kurmadan, üçüncü bir kuruluş aracılığıyla yabancı bir ülkede yasal olarak çalışan istihdam etmesini sağlar",
-      "Bir çalışanın işe giriş-çıkış saatlerini otomatik olarak kaydeden bir yazılım",
+      "Bir çalışanın günlük işe giriş-çıkış saatlerini, mola sürelerini ve biriken fazla mesailerini otomatik olarak kaydedip aylık raporlar hâlinde İK departmanına sunan bir bordro yazılımı",
       "Bir şirketin resmi ticaret sicil kaydını tutan devlet kurumu",
       "İşe alım sürecinde adayların referanslarını doğrulayan bir hizmet",
     ],
@@ -1039,7 +1039,7 @@ export const termCards: TermCard[] = [
     difficulty: "kolay",
     prompt: "'Maaş sıkışması' (salary compression) ne zaman ortaya çıkar?",
     options: [
-      "Bir şirketteki tüm çalışanların maaşları aynı anda zamlandığında",
+      "Bir şirketteki tüm çalışanların maaşları, yıllık bütçe döngüsü kapsamında ve tamamen aynı oranda olacak şekilde tek bir seferde eş zamanlı olarak zamlandığında",
       "Piyasa koşulları nedeniyle yeni işe alınan çalışanların maaşı, deneyimli/kıdemli çalışanların maaşına yakınlaştığında ya da onu geçtiğinde",
       "Bir çalışanın maaşı enflasyon nedeniyle satın alma gücünü kaybettiğinde",
       "Şirket bir ekonomik krizde tüm maaşları aynı oranda kestiğinde",
@@ -1057,7 +1057,7 @@ export const termCards: TermCard[] = [
     difficulty: "orta",
     prompt: "'Kariyer platosu' neyi ifade eder?",
     options: [
-      "Bir çalışanın kariyerinin başında yaşadığı hızlı yükseliş dönemi",
+      "Bir çalışanın kariyerinin en başında, işe henüz yeni başladığı dönemde art arda yaşadığı hızlı ve sürekli terfi/yükseliş süreci",
       "Bir çalışanın örgütsel yapı ya da kişisel sınırlar nedeniyle, gelecekte daha ileri bir terfi olasılığının düşük görüldüğü nokta",
       "Bir şirketin yıllık işe alım sayısının sabit kaldığı dönem",
       "Bir çalışanın maaşının enflasyona göre sabit tutulduğu bir ücret politikası",
@@ -1074,7 +1074,7 @@ export const termCards: TermCard[] = [
     difficulty: "orta",
     prompt: "'Yapılandırılmış mülakat' yöntemi neden tercih edilir?",
     options: [
-      "Mülakatçının adayla serbestçe, önceden belirlenmiş bir soru seti olmadan sohbet etmesine olanak tanıdığı için",
+      "Mülakatçının adayla tamamen serbestçe, önceden belirlenmiş herhangi bir soru seti ya da puanlama kriteri olmadan, akışına bırakılmış doğal ve rahat bir sohbet etmesine olanak tanıdığı için",
       "Her adaya aynı sorular aynı sırayla sorulup, cevapların önceden belirlenmiş kriterlerle puanlanması sonucu adaylar arası karşılaştırmayı daha adil ve tutarlı hale getirdiği için",
       "Mülakat süresini garanti altına aldığı, her mülakatın tam olarak aynı dakikada bittiği için",
       "Yalnızca teknik pozisyonlar için yasal bir zorunluluk olduğu için",
@@ -1092,7 +1092,7 @@ export const termCards: TermCard[] = [
     prompt: "'Sandviç nesil' kime denir?",
     options: [
       "Hem yetişkinliğe yeni adım atmış çocuklarına hem de yaşlanan ebeveynlerine aynı anda bakmakla yükümlü olan orta yaşlı çalışanlar",
-      "Aynı anda iki farklı şirkette tam zamanlı çalışan kişiler",
+      "Aynı anda iki ayrı şirkette, her ikisinden de tamamen habersiz şekilde tam zamanlı olarak çalışmayı uzun süre sürdürebilen kişiler",
       "Kariyerinin ortasında, ne junior ne senior sayılan çalışanlar",
       "Vardiyalı çalışma sisteminde sabah ve akşam vardiyaları arasında kalan çalışanlar",
     ],
@@ -1108,7 +1108,7 @@ export const termCards: TermCard[] = [
     difficulty: "zor",
     prompt: "'Yetkinlik tuzağı' (competency trap) neyi ifade eder?",
     options: [
-      "Bir çalışanın hiçbir konuda yeterli yetkinliğe sahip olmaması",
+      "Bir çalışanın uzun kariyeri boyunca, hiçbir konuda gerçek anlamda yeterli düzeyde bir yetkinlik geliştirememiş olmasının genel adı",
       "Bir organizasyonun zaten iyi olduğu bir yöntemde ısrar edip, daha üstün olabilecek yeni yaklaşımları denemekten kaçınması",
       "İşe alım sürecinde adayların yetkinliklerinin abartılı sunulması",
       "Bir çalışanın kariyerinde aynı unvanda uzun süre takılı kalması",
@@ -1126,7 +1126,7 @@ export const termCards: TermCard[] = [
     prompt: "'Örgütsel Vatandaşlık Davranışı' (Organizational Citizenship Behavior) neyi tanımlar?",
     options: [
       "Bir çalışanın resmi görev tanımının ötesinde, gönüllü olarak sergilediği yardımlaşma, inisiyatif alma gibi olumlu davranışlar",
-      "Bir çalışanın oy kullanma gibi vatandaşlık haklarını iş saatlerinde kullanabilmesi",
+      "Bir çalışanın oy kullanma gibi resmi vatandaşlık haklarını, işvereninden özel izin alarak çalışma saatleri içinde serbestçe kullanabilmesi",
       "Bir şirketin toplumsal sorumluluk (CSR) projelerine çalışan katılımı zorunluluğu",
       "Yabancı çalışanların vatandaşlık başvuru sürecinde işverenden aldığı destek",
     ],
@@ -1143,7 +1143,7 @@ export const termCards: TermCard[] = [
     prompt: "Pygmalion Etkisi'ni ortaya koyan ünlü 1968 deneyi hangi ortamda yapıldı?",
     options: [
       "İlkokul sınıflarında; öğretmenlere bazı öğrencilerin 'geç açan zeki' olduğu söylenip bu beklentinin gerçek başarıyı etkileyip etkilemediği test edilerek",
-      "Fabrika üretim hatlarında, ustabaşının işçilerden beklentisi ölçülerek",
+      "Fabrika üretim hatlarında, ustabaşının işçilerinden beklentisinin üretim hızına ve genel verimliliğe etkisi uzun aylar boyunca sistematik ve titizlikle ölçülerek",
       "Askeri eğitim kamplarında, komutanların er adaylarından beklentisi test edilerek",
       "Üniversite sınavlarında, sınav gözetmenlerinin öğrencilere karşı tutumu incelenerek",
     ],
