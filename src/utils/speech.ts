@@ -44,7 +44,3 @@ export function stopSpeaking(): void {
   window.speechSynthesis.cancel();
   currentUtterance = null;
 }
-
-export function isSpeaking(): boolean {
-  return isSpeechSupported() && window.speechSynthesis.speaking;
-}

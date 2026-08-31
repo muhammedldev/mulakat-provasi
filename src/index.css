@@ -181,24 +181,6 @@ button {
   margin: 0;
 }
 
-.feature-chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 18px;
-}
-
-.feature-chip {
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: var(--text-h);
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: 999px;
-}
-
 .btn-glow {
   box-shadow: 0 0 0 4px var(--accent-soft), 0 4px 0 var(--btn-edge), 0 12px 22px -10px rgba(37, 99, 235, 0.5);
 }
@@ -616,13 +598,7 @@ button {
   color: var(--text-h);
 }
 
-/* Interviewer tag + timer */
-.interviewer-tag {
-  font-size: 0.78rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
+/* Timer */
 .timer-row {
   display: flex;
   align-items: center;
@@ -1751,38 +1727,6 @@ button {
 }
 
 /* Mode select */
-.mode-card-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.mode-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  text-align: left;
-  padding: 16px;
-  border-radius: 16px;
-  border: 1.5px solid var(--border);
-  background: var(--surface-alt);
-  cursor: pointer;
-  box-shadow: 0 3px 0 var(--border);
-  transform: translateY(0);
-  transition: transform 0.08s ease, box-shadow 0.08s ease, border-color 0.15s ease;
-}
-
-.mode-card:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--border);
-}
-
-.mode-card-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-
 .mode-card-title {
   font-weight: 800;
   font-size: 1rem;
