@@ -1,6 +1,14 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (16. tur).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (16. tur, context doluluğu nedeniyle yeni sohbete geçiş).**
+
+## ⏭️ SIRADAKİ ADIM (yarım kalan, yeni sohbette buradan devam et)
+
+Kullanıcı "Android SDK/Android Studio kurulu değil, bunu yapabilir misin?" dedi — yani makineye Android SDK'yı **kurmamı** istiyor ki `android/` klasöründeki proje gerçekten derlenip test edilebilsin (bkz. aşağıdaki 16. tur notu — o ana kadar hiç derlenmemişti). Kullanıcıya iki seçenek sundum (AskUserQuestion ile), **henüz cevap gelmedi**:
+1. **Sadece komut satırı araçları** (önerdiğim) — JDK + Android SDK cmdline-tools kurup gerçek bir debug APK derlerim, GUI'siz tamamen otomatik, ~1-2GB indirme. Kullanıcı yine de emülatör/görsel debug için ileride Android Studio'yu kendi kurmalı.
+2. **Tam Android Studio (GUI)** — kalıcı geliştirme ortamı ama kurulum sihirbazı GUI üzerinden ilerliyor, ben tıklayamam, kullanıcının bir kısmını tamamlaması gerekir.
+
+Kullanıcı cevap vermeden, context doluluğu nedeniyle yeni bir sohbete geçmek istedi. **Yeni sohbet açıldığında ilk iş: kullanıcıya hangi seçeneği istediğini tekrar sor (veya doğrudan söylerse ona göre ilerle), sonra kuruluma başla.**
 
 ## Git/dokümantasyon revizyonu + Android (Capacitor) iskeleti (2026-08-31, 15-16. tur)
 
