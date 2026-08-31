@@ -1413,6 +1413,7 @@ button {
   border: 1px solid var(--border);
   background: var(--surface-alt);
   cursor: pointer;
+  text-align: left;
   transition: border-color 0.15s, background 0.15s, transform 0.1s;
 }
 
@@ -1441,6 +1442,8 @@ button {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .sector-select-title {
