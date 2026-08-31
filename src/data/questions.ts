@@ -894,7 +894,7 @@ export const questionPool: Question[] = [
     options: [
       {
         id: "a",
-        text: "Uzun uzun her hobini sırayla anlatmaya başlıyorsun, konuşman dakikalarca sürüyor.",
+        text: "Uzun uzun her hobini sırayla anlatmaya başlıyorsun, konuşman dakikalarca sürüyor, mülakatçının nazik işaretlerini fark etmiyorsun.",
         deltas: { iletisim: -10 },
         feedback: "Sohbeti dengede tutmak önemli — bu tempo mülakatın akışını bozabilir.",
       },
