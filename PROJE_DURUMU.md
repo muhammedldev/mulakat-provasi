@@ -1,6 +1,6 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (11. tur).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-08-31 (13. tur).**
 
 ## ✅ GÜNCEL DURUM: Proje canlıda, "hazır" — bilinen açık bir görev yok
 
@@ -28,6 +28,21 @@ Kullanıcı canlı siteden bir ekran görüntüsü gönderip "burda bir yamukluk
 **Ders — gelecekte benzer bir "kart listesi" bileşeni yazılırken:** `<button>` elementleri tarayıcı varsayılanında `text-align: center` taşıyabilir; bir üst kapsayıcıda `text-align: left` tanımlamak YETMEZ, doğrudan `<button>` (veya `role="button"` olan) elementin kendisinde tanımlanmalı. Bu proje için artık `.sector-select-card` VE `.skill-path-row` ikisi de doğru — yeni bir buton-tabanlı liste eklenirse aynı deseni takip et.
 
 Bu arada, canlıda bir test sekmesinde `vite:preloadError` senaryosu (önceki turda düzeltilen stale-service-worker/chunk-404 sorunu) gerçekten tetiklendi ve otomatik yenileme sayesinde kullanıcı hiçbir şey fark etmeden kurtarıldı — düzeltmenin canlıda işe yaradığı ilk elden doğrulandı.
+
+## Ölü kod temizliği + performans turu (2026-08-31, aynı gün 13. tur)
+
+Kullanıcı "genel olarak ölü kodlar varsa temizleyelim, performans artıracak çözümler varsa uygulayalım" dedi. Sistematik bir tarama yapıldı (geçici node script'leriyle: tüm CSS class'ları dinamik template-literal olanlar hariç tutularak `.tsx` kullanımına karşı kontrol edildi, tüm `export const/function/interface/type` isimleri tüm kod tabanında geçiş sayısına göre kontrol edildi, bileşen dosyalarının hepsinin App.tsx'te eager/lazy import edildiği doğrulandı) — script'ler iş bitince silindi (kalıcı bir ihtiyaç değil, `scripts/analyze-length-bias.ts`'in aksine).
+
+**Bulunan ve temizlenen ölü kod:**
+- `index.css`'te 3 hiç kullanılmayan blok: `.mode-card`/`.mode-card-list`/`.mode-card-icon` (Mod Seç ekranının şimdiki "patika" tasarımından önceki eski liste görünümünden kalma — `.mode-card-title`/`.mode-card-desc`/`.mode-card-meta` hâlâ kullanılıyor, onlara dokunulmadı), `.feature-chip`/`.feature-chip-row`, `.interviewer-tag`.
+- `utils/speech.ts`'teki hiç çağrılmayan `isSpeaking()` export'u.
+- npm bağımlılıkları zaten minimaldi (`framer-motion`/`react`/`react-dom` + gerekli devDependencies), temizlenecek bir şey çıkmadı.
+
+**Uygulanan gerçek performans kazanımı:** `public/og-image.png` (774KB, sosyal paylaşım kartı + PWA service worker tarafından her ziyaretçiye önbelleğe alınıyordu) şeffaflık içermediği için JPEG'e (kalite 0.85) çevrildi → **43KB (%94 küçülme)**. PWA precache toplamı **1738KB → 981KB** (%44 küçülme) düştü. `pwa-*.png` ikonları (192/512/maskable) bilerek dokunulmadı — köşe yuvarlaklığı için gerçek alfa şeffaflığa ihtiyaçları var, JPEG'e çevrilemezler; PNG optimizasyonu (pngquant vb.) için araç bu ortamda yoktu, potansiyel kazanç da (238KB→belki 100-150KB) og-image kadar büyük olmayacaktı — bilinçli olarak bu turun kapsamı dışında bırakıldı, istenirse ileride ele alınabilir.
+
+**Değerlendirilip uygulanmayan (yanlış hedef olurdu):** `framer-motion`'ı değiştirmek/kaldırmak ana JS paketinin büyük bir kısmını oluşturuyor olabilir ama neredeyse her bileşende animasyon için kullanılıyor — bunu değiştirmek küçük bir "temizlik" değil, projenin görsel diline dokunan büyük bir yeniden yazım olurdu, istenmedi.
+
+Tarayıcıda hem yerelde hem canlıda (`og-image.jpg`'nin 200 döndüğü, konsol hatası olmadığı) doğrulandı. `npm run build`/`npm run lint` temiz.
 
 ## Performans/mimari güçlendirme — code splitting (2026-08-30, aynı gün 10. tur)
 
