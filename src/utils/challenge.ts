@@ -55,6 +55,22 @@ export function readChallengeFromLocation(): ChallengePayload | null {
   return decodeChallenge(code);
 }
 
+// Android App Links üzerinden gelen bir URL string'inden (Capacitor'ın
+// `appUrlOpen` event'i) meydan okuma verisini okur — native tarafta WebView
+// gerçek https://mulakat-provasi.vercel.app adresini hiç yüklemediği için
+// `readChallengeFromLocation()`'ın kullandığı `window.location` bu senaryoda
+// işe yaramıyor, URL ayrıca elle parse edilmeli.
+export function readChallengeFromUrlString(urlString: string): ChallengePayload | null {
+  try {
+    const url = new URL(urlString);
+    const code = url.searchParams.get(PARAM);
+    if (!code) return null;
+    return decodeChallenge(code);
+  } catch {
+    return null;
+  }
+}
+
 export function clearChallengeFromUrl(): void {
   const url = new URL(window.location.href);
   if (!url.searchParams.has(PARAM)) return;

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.muhammedldev.mulakatprovasi",
+      "sha256_cert_fingerprints": [
+        "4B:17:91:8A:8F:2A:39:B0:FF:44:5F:BB:60:E7:47:6E:98:5F:CE:DD:44:49:8C:42:ED:D6:79:98:56:0F:BF:F8"
+      ]
+    }
+  }
+]

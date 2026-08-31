@@ -1,3 +1,5 @@
+import { hapticError, hapticLight, hapticMedium, hapticSuccess } from "./haptics";
+
 const MUTE_KEY = "mulakat-provasi-muted";
 
 let audioCtx: AudioContext | null = null;
@@ -191,6 +193,7 @@ function playTap({ start = 0, freq = 2200, duration = 0.05, gain = 0.05 } = {}) 
 
 export function playClick() {
   playTap({ freq: 2400, duration: 0.045, gain: 0.05 });
+  hapticLight();
 }
 
 export function playCorrect() {
@@ -200,6 +203,7 @@ export function playCorrect() {
     { freq: 659.25, start: 0.07, duration: 0.18, type: "triangle", shimmer: true, reverb: 0.12 },
     { freq: 783.99, start: 0.14, duration: 0.3, type: "triangle", shimmer: true, gain: 0.18, reverb: 0.16 },
   ]);
+  hapticSuccess();
 }
 
 export function playWrong() {
@@ -208,6 +212,7 @@ export function playWrong() {
     { freq: 196, start: 0, duration: 0.22, type: "sine", glideTo: 130, gain: 0.16, reverb: 0.04 },
   ]);
   playTap({ start: 0.01, freq: 400, duration: 0.09, gain: 0.045 });
+  hapticError();
 }
 
 export function playTimeout() {
@@ -215,6 +220,7 @@ export function playTimeout() {
     { freq: 349.23, start: 0, duration: 0.14, type: "triangle", gain: 0.12, reverb: 0.06 },
     { freq: 261.63, start: 0.13, duration: 0.22, type: "triangle", gain: 0.12, reverb: 0.06 },
   ]);
+  hapticError();
 }
 
 export function playCombo() {
@@ -225,6 +231,7 @@ export function playCombo() {
     { freq: 1046.5, start: 0.14, duration: 0.16, type: "sine", shimmer: true, gain: 0.14, reverb: 0.2 },
     { freq: 1318.5, start: 0.21, duration: 0.24, type: "sine", shimmer: true, gain: 0.12, reverb: 0.24 },
   ]);
+  hapticMedium();
 }
 
 export function playVictory() {
@@ -239,6 +246,7 @@ export function playVictory() {
     { freq: 783.99, start: 0.46, duration: 0.18, type: "sine", shimmer: true, reverb: 0.24 },
     { freq: 1046.5, start: 0.6, duration: 0.4, type: "sine", shimmer: true, gain: 0.16, reverb: 0.3 },
   ]);
+  hapticSuccess();
 }
 
 export function playToast() {

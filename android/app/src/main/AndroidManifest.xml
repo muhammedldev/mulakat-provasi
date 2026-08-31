@@ -18,6 +18,23 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Android App Links: "Arkadaşını Meydan Oku" linki (?duel=...)
+                 tarayıcı yerine doğrudan bu uygulamada açılsın diye.
+                 android:autoVerify, Android'in public/.well-known/assetlinks.json
+                 dosyasını (bu domainin bu uygulamayı yayınladığını kanıtlayan
+                 imza parmak izi dosyası) sunucudan çekip doğrulamasını sağlar
+                 — assetlinks.json canlıya alınıp gerçek release imza SHA-256'sı
+                 girilene kadar bu doğrulama geçmez, ama intent-filter kendisi
+                 `adb shell am start -a android.intent.action.VIEW -d "..."` ile
+                 (ya da doğrulama olmadan Android'in gösterdiği "Aç" seçim
+                 diyaloğuyla) yerel testte zaten çalışır. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="mulakat-provasi.vercel.app" />
+            </intent-filter>
         </activity>
 
         <provider

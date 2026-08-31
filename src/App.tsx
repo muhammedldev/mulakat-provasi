@@ -1,11 +1,18 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
+import { App as CapacitorApp, type URLOpenListenerEvent } from "@capacitor/app";
 import MainMenu from "./components/MainMenu";
 import SoundToggle from "./components/SoundToggle";
 import ExitConfirmButton from "./components/ExitConfirmButton";
 import ToastStack, { type ToastItem } from "./components/ToastStack";
 import { playToast } from "./utils/sound";
 import { isMusicEnabled, startMusic } from "./utils/music";
-import { clearChallengeFromUrl, readChallengeFromLocation, type ChallengePayload } from "./utils/challenge";
+import {
+  clearChallengeFromUrl,
+  readChallengeFromLocation,
+  readChallengeFromUrlString,
+  type ChallengePayload,
+} from "./utils/challenge";
+import { closeTopModal } from "./utils/modalStack";
 import type { SectorId } from "./types";
 
 // Ana menü dışındaki her şey dinamik import ile ayrı chunk'lara bölünüyor —
@@ -46,6 +53,7 @@ export default function App() {
   // moda geri döneceğini takip eder.
   const [pendingSectorMode, setPendingSectorMode] = useState<"classic" | "rapid" | null>(null);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [exitConfirming, setExitConfirming] = useState(false);
 
   useEffect(() => {
     if (!isMusicEnabled()) return;
@@ -99,6 +107,75 @@ export default function App() {
     setMode("menu");
   };
 
+  // Android donanım/gesture geri tuşu için: Capacitor'ın varsayılan davranışı
+  // (WebView geçmişinde gidilecek yer yoksa uygulamayı doğrudan kapatmak) bu
+  // SPA'da hiç URL değişmediği için her zaman tetikleniyordu — oyunun
+  // ortasında bile onay sormadan uygulamadan çıkılıyordu. Geri tuşunu ekrana
+  // göre aynı "Geri"/"🚪 Çıkış Onayı" akışlarına yönlendiriyoruz.
+  useEffect(() => {
+    const listenerPromise = CapacitorApp.addListener("backButton", () => {
+      // MainMenu içindeki modallar (Ayarlar, Başarımlar, İstatistiklerim,
+      // Kaynakça, Nasıl Oynanır) App'in `mode`'undan bağımsız kendi local
+      // state'leriyle açılıyor — bu yüzden mode-bazlı switch'ten önce açık
+      // bir modal varsa onu kapatmak yeterli, aksi halde örn. ana menüde
+      // bir modal açıkken geri tuşu doğrudan uygulamadan çıkardı.
+      if (closeTopModal()) return;
+      if (exitConfirming) {
+        setExitConfirming(false);
+        return;
+      }
+      switch (mode) {
+        case "menu":
+          CapacitorApp.exitApp();
+          return;
+        case "select":
+          backToMenu();
+          return;
+        case "sector-select":
+          setMode("select");
+          return;
+        case "challenge-intro":
+          declineChallenge();
+          return;
+        default:
+          setExitConfirming(true);
+      }
+    });
+    return () => {
+      listenerPromise.then((handle) => handle.remove());
+    };
+  }, [mode, exitConfirming]);
+
+  // Android App Links: bir arkadaş "Arkadaşını Meydan Oku" linkine
+  // (https://mulakat-provasi.vercel.app/?duel=...) tıklayıp bu uygulama
+  // yüklüyse, link tarayıcıda değil doğrudan uygulamada açılır. WebView
+  // gerçek domaini hiç yüklemediği (her zaman https://localhost) için
+  // `window.location`'dan okuma çalışmaz — Capacitor'ın `appUrlOpen`
+  // event'i native tarafın yakaladığı gerçek URL'i JS'e taşıyor, meydan
+  // okuma verisi buradan elle çıkarılıyor. Bu event yalnızca uygulama ZATEN
+  // çalışırken ("warm" — Activity `onNewIntent` alır) tetikleniyor; uygulama
+  // linkle SIFIRDAN açıldığında ("cold start") `appUrlOpen` hiç ateşlenmiyor
+  // — native taraf o durumda URL'i yalnızca `getLaunchUrl()` ile senkron
+  // olmayan bir çağrı sonucunda veriyor, bu yüzden ayrıca kontrol ediliyor.
+  useEffect(() => {
+    const listenerPromise = CapacitorApp.addListener("appUrlOpen", (data: URLOpenListenerEvent) => {
+      const challenge = readChallengeFromUrlString(data.url);
+      if (!challenge) return;
+      setIncomingChallenge(challenge);
+      setMode("challenge-intro");
+    });
+    CapacitorApp.getLaunchUrl().then((result) => {
+      if (!result?.url) return;
+      const challenge = readChallengeFromUrlString(result.url);
+      if (!challenge) return;
+      setIncomingChallenge(challenge);
+      setMode("challenge-intro");
+    });
+    return () => {
+      listenerPromise.then((handle) => handle.remove());
+    };
+  }, []);
+
   return (
     <div className="app-shell">
       <div className="bg-blob bg-blob--1" aria-hidden="true" />
@@ -107,7 +184,15 @@ export default function App() {
 
       <SoundToggle />
       {mode !== "menu" && mode !== "select" && mode !== "sector-select" && mode !== "challenge-intro" && (
-        <ExitConfirmButton onExit={backToMenu} />
+        <ExitConfirmButton
+          confirming={exitConfirming}
+          onRequestConfirm={() => setExitConfirming(true)}
+          onCancel={() => setExitConfirming(false)}
+          onExit={() => {
+            setExitConfirming(false);
+            backToMenu();
+          }}
+        />
       )}
       <ToastStack toasts={toasts} />
 

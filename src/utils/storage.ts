@@ -1,6 +1,8 @@
 import { clearAllMistakes } from "./mistakes";
 import { clearInsights } from "./insights";
 import { clearDailyDone } from "./daily";
+import { getReminderEnabled } from "./settings";
+import { scheduleStreakReminder } from "./notifications";
 
 const BEST_KEY = "mulakat-provasi-best";
 const UNLOCKED_KEY = "mulakat-provasi-unlocked";
@@ -136,6 +138,14 @@ export function getDailyStreak(): number {
   }
 }
 
+export function hasPlayedToday(): boolean {
+  try {
+    return localStorage.getItem(LAST_PLAYED_KEY) === todayKey();
+  } catch {
+    return false;
+  }
+}
+
 export function recordDailyPlay(): number {
   try {
     const today = todayKey();
@@ -154,6 +164,9 @@ export function recordDailyPlay(): number {
     }
     localStorage.setItem(DAILY_STREAK_KEY, String(streak));
     localStorage.setItem(LAST_PLAYED_KEY, today);
+    // Bugün oynandığına göre günlük hatırlatıcı (açıksa) yarın akşama
+    // ertelenir — aynı gün tekrar rahatsız etmemek için.
+    if (getReminderEnabled()) void scheduleStreakReminder(true);
     return streak;
   } catch {
     return getDailyStreak();

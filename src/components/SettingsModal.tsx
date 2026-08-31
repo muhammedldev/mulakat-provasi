@@ -1,18 +1,22 @@
 import { useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import Modal from "./Modal";
 import { isMuted, setMuted, playClick } from "../utils/sound";
 import { isMusicEnabled, setMusicEnabled } from "../utils/music";
-import { resetProgress } from "../utils/storage";
+import { hasPlayedToday, resetProgress } from "../utils/storage";
 import {
   getFontScale,
   getReducedMotion,
+  getReminderEnabled,
   getTheme,
   setFontScale,
   setReducedMotion,
+  setReminderEnabled,
   setTheme,
   type FontScale,
   type ThemeChoice,
 } from "../utils/settings";
+import { cancelStreakReminder, requestReminderPermission, scheduleStreakReminder } from "../utils/notifications";
 
 const themeOptions: { value: ThemeChoice; label: string }[] = [
   { value: "system", label: "Sistem" },
@@ -27,6 +31,8 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
   const [theme, setThemeState] = useState<ThemeChoice>(getTheme);
   const [fontScale, setFontScaleState] = useState<FontScale>(getFontScale);
   const [reducedMotion, setReducedMotionState] = useState<boolean>(getReducedMotion);
+  const [reminderOn, setReminderOnState] = useState<boolean>(getReminderEnabled);
+  const isNativePlatform = Capacitor.isNativePlatform();
 
   const toggleSound = () => {
     const next = !muted;
@@ -57,6 +63,23 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
     const next = !reducedMotion;
     setReducedMotion(next);
     setReducedMotionState(next);
+  };
+
+  const toggleReminder = () => {
+    if (reminderOn) {
+      setReminderEnabled(false);
+      setReminderOnState(false);
+      void cancelStreakReminder();
+      return;
+    }
+    // İzin isteği asenkron — kullanıcı reddederse toggle açık kalmaz,
+    // tercih de kaydedilmez (izinsiz bir bildirim zaten planlanamaz).
+    requestReminderPermission().then((granted) => {
+      if (!granted) return;
+      setReminderEnabled(true);
+      setReminderOnState(true);
+      void scheduleStreakReminder(hasPlayedToday());
+    });
   };
 
   const handleReset = () => {
@@ -113,6 +136,15 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
           {reducedMotion ? "Açık" : "Kapalı"}
         </button>
       </div>
+
+      {isNativePlatform && (
+        <div className="settings-row">
+          <span>Günlük hatırlatıcı</span>
+          <button className="settings-switch" onClick={toggleReminder} aria-pressed={reminderOn}>
+            {reminderOn ? "Açık 🔔" : "Kapalı"}
+          </button>
+        </div>
+      )}
 
       <div className="settings-row">
         <span>İlerlemeyi sıfırla</span>
