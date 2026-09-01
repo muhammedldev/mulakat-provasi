@@ -83,9 +83,9 @@ export default function ResultScreen({
           title: profile.title,
           score,
           stats: [
-            { label: statLabels.hazirlik, value: stats.hazirlik, color: "#4f46e5" },
-            { label: statLabels.iletisim, value: stats.iletisim, color: "#0d9488" },
-            { label: statLabels.ozguven, value: stats.ozguven, color: "#b45309" },
+            { label: statLabels.hazirlik, icon: "📚", value: stats.hazirlik, color: "#818cf8" },
+            { label: statLabels.iletisim, icon: "💬", value: stats.iletisim, color: "#2dd4bf" },
+            { label: statLabels.ozguven, icon: "⭐", value: stats.ozguven, color: "#fbbf24" },
           ],
           tipLabel: statLabels[weakStat],
           tip: statTips[weakStat],
