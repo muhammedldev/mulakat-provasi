@@ -1,4 +1,10 @@
+import { Capacitor } from "@capacitor/core";
 import type { Rank, SectorId } from "../types";
+
+// Android'de Capacitor sayfayı gerçek domain'den değil, kendi yerel sunucusundan
+// (https://localhost) yüklüyor — bu yüzden `window.location` paylaşılabilir bir
+// link üretmek için kullanılamaz, arkadaşın açtığında localhost'a çıkardı.
+const PRODUCTION_ORIGIN = "https://mulakat-provasi.vercel.app";
 
 export interface ChallengePayload {
   seed: string;
@@ -42,7 +48,8 @@ export function decodeChallenge(code: string): ChallengePayload | null {
 }
 
 export function buildChallengeUrl(payload: ChallengePayload): string {
-  const url = new URL(window.location.href);
+  const base = Capacitor.isNativePlatform() ? PRODUCTION_ORIGIN : window.location.href;
+  const url = new URL(base);
   url.search = "";
   url.searchParams.set(PARAM, encodeChallenge(payload));
   return url.toString();
