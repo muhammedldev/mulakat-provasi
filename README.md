@@ -1,44 +1,20 @@
-# 🎤 Mülakat Provası
+# Mülakat Provası
 
-Üniversite öğrencileri ve yeni mezunlar için **akademik kaynaklara dayanan**, gamified bir mülakat pratiği oyunu. **React + TypeScript + Vite** ile yazıldı, tamamen istemci taraflı (client-side) çalışır — hiçbir backend'e ihtiyaç duymaz, hiçbir veri sunucuya gitmez.
+Üniversite öğrencileri ve yeni mezunlar için bir mülakat pratiği oyunu. React + TypeScript + Vite ile yazıldı, tamamen istemci tarafında çalışıyor — backend yok, hiçbir veri sunucuya gitmiyor.
 
-**Canlı:** [mulakat-provasi.vercel.app](https://mulakat-provasi.vercel.app/)
+Canlı: [mulakat-provasi.vercel.app](https://mulakat-provasi.vercel.app/)
 
-## Özellikler
+## Ne var içinde
 
-### 3 ana oyun modu
+Üç ana mod var. **Klasik Mülakat**, üç mülakatçıyla (İK, ekip lideri, işe alım müdürü) sırayla görüşüldüğü 18 soruluk hikâyeli bir prova — kolaydan zora ilerliyor, Hazırlık/İletişim/Özgüven puanları ve sonunda bir rütbe (Bronz'dan Platin'e) veriyor. İsteğe bağlı sektöre özel sorular da (Yazılım, Satış) eklenebiliyor. **Terim Küresi**, süre baskısı olmadan güncel İK terimlerini öğrenme modu. **Seri Mülakat** ise karışık sorularla, azalan sürede, hem doğruluğu hem sakinliği ölçüyor.
 
-- **🎭 Klasik Mülakat** — 3 farklı mülakatçı (İK Uzmanı, Ekip Lideri, İşe Alım Müdürü) ile sırayla görüşülen, hikâyeli 18 soruluk bir prova. Her bölüm kolaydan zora ilerler; Hazırlık/İletişim/Özgüven istatistikleri, kombo bonusu ve sonunda bir rütbe (Bronz → Platin) kazandırır. İsteğe bağlı olarak **sektöre özel sorularla** (Yazılım & Teknoloji, Satış & Pazarlama) zenginleştirilebilir.
-- **🔮 Terim Küresi** — süre baskısı olmadan, güncel İK/iş dünyası terimlerini (Quiet Quitting, Skills-Based Hiring, Pay Transparency gibi) öğrenme modu.
-- **⚡ Seri Mülakat** — karışık sorular (uygulama, teorik, vaka analizi, öz-yönetim), her soruda azalan süre; hem doğruluk hem "sakinlik" (composure) birlikte değerlendirilip 4 farklı performans profilinden biri veriliyor.
+Bunların yanında: yanlış cevapladığın soruların biriktiği bir "Zayıf Noktalarım" listesi, günde bir kez sorulan "Günün Sorusu" (streak takibiyle), arkadaşını link üzerinden meydan okumaya davet etme (hiçbir sunucu kullanmadan — her şey URL'ye kodlanıyor), 17 başarım + XP/seviye sistemi, skor geçmişini gösteren bir grafik, kaynakça ekranı (sorular gerçek akademik kaynaklara dayanıyor), sesli okuma, indirilebilir bir PNG sonuç kartı, ve PWA desteği.
 
-### Ek modlar ve özellikler
+## Teknoloji
 
-- **🔁 Zayıf Noktalarım** — herhangi bir modda yanlış cevaplanan her soru/terim otomatik birikir, doğru cevaplanınca listeden çıkar.
-- **📅 Günün Sorusu** — tarihe göre deterministik seçilen, günde bir kez sorulan tek soru; günlük seri (streak) takibi.
-- **🎯 Arkadaşını Meydan Oku** — seed'lenmiş (deterministik) bir RNG ile, paylaşılan bir link üzerinden arkadaşınıza *birebir aynı* soru setini çözdürüp skorları karşılaştırabilirsiniz — hiçbir veri sunucuya gitmeden, tamamen URL üzerinden.
-- **🏆 Başarımlar, seviye ve XP** — 14 başarım, XP tabanlı seviye sistemi, kural tabanlı (yapay zeka kullanmayan) kişiselleştirilmiş gelişim önerileri.
-- **📊 İstatistiklerim** — zaman içindeki skor ilerlemesini gösteren, bağımlılıksız bir SVG çizgi grafik.
-- **📚 Kaynakça** — teorik/efsane içeriklerin dayandığı gerçek akademik kaynaklar (yazar + yıl), ayrı bir ekranda listeleniyor.
-- **🔊 Sesli okuma** — sorular Web Speech API ile sesli okunabilir.
-- **📄 Paylaşılabilir sonuç raporu** — Canvas ile üretilen, indirilebilir bir PNG özet kartı.
-- **PWA desteği** — ana ekrana eklenebilir, service worker ile temel çevrimdışı önbellekleme.
-- **Koyu/açık tema, büyük yazı ve azaltılmış hareket** ayarları; tüm veriler yalnızca `localStorage`'da tutulur.
+React 19 + TypeScript, Vite, Capacitor (Android sarmalı için). UI kütüphanesi yok, tasarım elle yazılmış CSS custom properties ile. Sesler (SFX + müzik) Web Audio API ile prosedürel üretiliyor, dış ses dosyası kullanılmıyor. State yönetimi `useReducer` + `useState`, ekstra kütüphane gerekmedi. Her mod `React.lazy()` ile ayrı chunk'a bölünüyor.
 
-## Teknoloji yığını
-
-- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vite.dev/) (build & dev server) + [vite-plugin-pwa](https://vite-pwa-org.netlify.app/)
-- [Capacitor](https://capacitorjs.com/) — aynı web kodunu bir Android uygulamasına saran native kabuk
-- [Framer Motion](https://motion.dev/) — animasyonlar
-- Harici bir UI kütüphanesi veya CSS framework yok — tasarım sistemi elle yazılmış CSS custom properties ile kurulu
-- Ses (SFX + arka plan müziği) tamamen Web Audio API ile prosedürel olarak üretiliyor, dış ses dosyası yok
-- State yönetimi: `useReducer` (Klasik Mülakat) + bileşen bazlı `useState` (diğer modlar) — ek bir kütüphane gerekmiyor
-- Mod bazlı `React.lazy()` code-splitting: ana menü dışındaki her ekran/modal ayrı bir chunk'ta, yalnızca gerçekten girildiğinde indiriliyor
-
-## Başlarken
-
-Gereksinimler: [Node.js](https://nodejs.org/) 18 veya üzeri (LTS önerilir) ve npm.
+## Kurulum
 
 ```bash
 git clone https://github.com/muhammedldev/mulakat-provasi.git
@@ -47,88 +23,57 @@ npm install
 npm run dev
 ```
 
-Terminalde görünen adresi (varsayılan `http://localhost:5173`) tarayıcınızda açın.
+`http://localhost:5173`'ü tarayıcıda aç.
 
-### Diğer komutlar
+Diğer komutlar:
 
 ```bash
-npm run build     # Üretim için derler (dist/ klasörü), TypeScript tip kontrolü de burada çalışır
+npm run build     # dist/ üretir, tsc kontrolü de burada çalışır
 npm run preview   # build çıktısını yerelde önizler
-npm run lint      # oxlint ile statik analiz
+npm run lint      # oxlint
+npm run test      # vitest
 ```
 
-### Kalite kontrol script'i
+Yeni bir soru/terim eklerken `npx tsx scripts/analyze-length-bias.ts` çalıştır — doğru cevabın metin uzunluğuyla ele vermediğini kontrol ediyor. Yazarken fark etmeden en uzun/detaylı şıkkı doğru yapma eğilimi oluyor, script bunu yakalıyor.
+
+## Android
+
+`android/` klasörü tam bir Android Studio projesi olarak repoda duruyor.
 
 ```bash
-npx tsx scripts/analyze-length-bias.ts
+npm run android:sync   # web'i derler + android projesine kopyalar
+npm run android:open   # yukarıdakini yapıp Android Studio'yu açar
 ```
 
-Yeni bir soru/terim eklendiğinde, doğru cevabın metin uzunluğu bakımından şıklar arasında öne çıkmadığını (bilgiye gerek kalmadan tahmin edilebilir olmadığını) doğrular.
+Android Studio'da bir emülatörde çalıştırabilir ya da **Build → Generate Signed App Bundle/APK** ile Play Store için imzalı bir `.aab` üretebilirsin.
 
-## Mobil uygulama (Android)
-
-Proje [Capacitor](https://capacitorjs.com/) ile bir Android uygulamasına sarılabiliyor — aynı web kodu, native bir kabuk içinde çalışıyor. `android/` klasörü tam bir Android Studio projesi olarak repoda duruyor.
-
-```bash
-npm run android:sync   # web'i derler + dist/'i android projesine kopyalar, plugin'leri günceller
-npm run android:open   # yukarıdakini yapıp Android Studio'da projeyi açar (kurulu olmalı)
-```
-
-Android Studio içinde bir emülatörde veya gerçek cihazda "Run" ile çalıştırabilir, ya da **Build → Generate Signed App Bundle/APK** ile Google Play'e yüklenebilecek imzalı bir `.aab` üretebilirsiniz (Play Store'a yayınlamak için ayrı bir Google Play Developer hesabı gerekir).
-
-Uygulama ikonu ve splash screen `assets/` klasöründeki kaynak görsellerden (`icon.png`, `icon-foreground.png`, `icon-background.png`, `splash.png`) [@capacitor/assets](https://github.com/ionic-team/capacitor-assets) ile üretildi; marka görseli değişirse `assets/` içindekileri güncelleyip şunu çalıştırmak yeterli:
+İkon/splash `assets/` klasöründeki kaynak görsellerden `@capacitor/assets` ile üretildi; görseller değişirse:
 
 ```bash
 npx @capacitor/assets generate --android
 ```
 
-## Proje yapısı
+## Yapı
 
 ```
-public/
-  favicon.svg, pwa-*.png, og-image.jpg     PWA ve sosyal paylaşım varlıkları
-
-android/                                   Capacitor ile üretilen Android Studio projesi
-assets/                                    Android ikon/splash kaynak görselleri (icon.png vb.)
-capacitor.config.ts                        Capacitor uygulama kimliği ve web dizini ayarı
-
-scripts/
-  analyze-length-bias.ts                   soru/terim şıklarında uzunluk önyargısı kontrolü
+public/            PWA ve sosyal paylaşım varlıkları
+android/            Capacitor'ın ürettiği Android Studio projesi
+assets/             Android ikon/splash kaynak görselleri
+scripts/            analyze-length-bias.ts — şık uzunluğu kontrolü
 
 src/
-  types.ts                        Soru, terim, istatistik vb. paylaşılan tipler
-  data/
-    questions.ts                   Klasik Mülakat soru havuzu + buildGameQuestions()
-    sectorQuestions.ts             Sektöre özel (Yazılım/Satış) sorular
-    sectors.ts                     Sektör meta verisi
-    rapidQuestions.ts              Seri Mülakat soru havuzu + buildRapidQuestions()
-    terms.ts                       Terim Küresi terimleri
-    achievements.ts                14 başarımın tanımı ve kilit açma mantığı
-    interviewers.ts, interludes.ts, profiles.ts   Mülakatçı/ara sahne/rütbe verisi
-  state/
-    gameReducer.ts                  Klasik Mülakat'ın tüm state mantığı (useReducer)
-  utils/
-    storage.ts, insights.ts, mistakes.ts, reviewItems.ts   localStorage ve ilerleme mantığı
-    challenge.ts                    Arkadaşını Meydan Oku linki encode/decode
-    sound.ts, music.ts, speech.ts   Web Audio API ses efektleri, müzik, sesli okuma
-    rng.ts                          Seed'lenmiş deterministik RNG
-    shareImage.ts                    Canvas ile PNG sonuç raporu üretimi
-  components/
-    App.tsx (kök), MainMenu, ModeSelectScreen, SectorSelectScreen   gezinme ekranları
-    ClassicGameContainer, GameScreen, RoundIntroScreen, InterludeScene, ResultScreen
-    TermGlobeMode, RapidInterviewMode, ReviewMode, DailyChallengeMode, ChallengeIntroScreen
-    HowToPlayModal, AchievementsModal, StatsModal, SettingsModal, ReferencesModal   modallar
-    InterviewerCharacter.tsx        el yapımı SVG mülakatçı karakterleri
-  index.css                        tasarım tokenleri + tüm bileşen stilleri
+  types.ts          paylaşılan tipler
+  data/             soru/terim havuzları, mülakatçılar, rütbeler, başarımlar
+  state/            gameReducer.ts — Klasik Mülakat'ın state mantığı
+  utils/            localStorage, meydan okuma linki, ses, RNG, PNG üretimi
+  components/       ekranlar ve modallar
+  index.css         tasarım tokenleri + tüm stiller
 ```
 
-## Gizlilik notu
+## Gizlilik
 
-Bu proje sunucu tarafı bir bileşen içermez. Hiçbir kullanıcı verisi ağ üzerinden gönderilmez;
-ilerleme durumu (skor, başarımlar, XP, ayarlar) yalnızca tarayıcının `localStorage`'ında tutulur.
-"Arkadaşını Meydan Oku" özelliği bile bir sunucu kullanmaz — tüm bilgi paylaşılan linkin
-içine (URL) kodlanır.
+Sunucu tarafı bileşen yok. İlerleme (skor, başarımlar, XP, ayarlar) sadece tarayıcının `localStorage`'ında duruyor. Meydan okuma linki bile sunucu kullanmıyor, her şey URL'ye kodlanıyor.
 
 ## Lisans
 
-[MIT](LICENSE) — dilediğiniz gibi kullanabilir, değiştirebilir ve dağıtabilirsiniz.
+[MIT](LICENSE)
