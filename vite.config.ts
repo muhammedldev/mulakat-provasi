@@ -35,6 +35,18 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    // Vite'ın varsayılan hedefi ("modules" — Chrome 87+) Android uygulamasının
+    // minSdkVersion=24 (Android 7.0, 2016, WebView'i Chrome 69) vaadiyle
+    // tutarsızdı: gerçekte derlenen JS'te optional chaining (?.) gibi ES2020
+    // sözdizimi kalıyordu, bu da o kadar eski bir WebView'de "Uncaught
+    // SyntaxError: Unexpected token ?" ile bundle'ın hiç çalışmamasına
+    // (uygulama boş beyaz ekran açmasına) yol açıyordu — bir API 24
+    // emülatöründe canlı test edilip bulundu. `chrome69` hedefi esbuild'in bu
+    // sözdizimini eski WebView'in anlayacağı şekilde transpile etmesini
+    // sağlıyor.
+    target: ['chrome69'],
+  },
   server: {
     port: process.env.PORT ? Number(process.env.PORT) : 5173,
     strictPort: Boolean(process.env.PORT),

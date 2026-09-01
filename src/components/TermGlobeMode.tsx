@@ -91,15 +91,13 @@ export default function TermGlobeMode({
       setScore((s) => s + 1);
       clearMistake(current.id);
       if (current.difficulty === "efsane") tryUnlock("efsane-avcisi", onAchievement);
-      setStreak((s) => {
-        const next = s + 1;
-        if (next > 0 && next % 3 === 0) {
-          playCombo();
-          onAchievement(`🔥 Kombo! Art arda ${next} doğru terim`);
-          tryUnlock("kombo-avcisi", onAchievement);
-        }
-        return next;
-      });
+      const nextStreak = streak + 1;
+      setStreak(nextStreak);
+      if (nextStreak > 0 && nextStreak % 3 === 0) {
+        playCombo();
+        onAchievement(`🔥 Kombo! Art arda ${nextStreak} doğru terim`);
+        tryUnlock("kombo-avcisi", onAchievement);
+      }
     } else {
       playWrong();
       recordMistake(current.id);

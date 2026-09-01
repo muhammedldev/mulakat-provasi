@@ -33,6 +33,23 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Eski Android WebView'lerde (ör. Android 7.0/API 24'ün Chrome 69
+      // WebView'i) queueMicrotask global fonksiyonu hiç yok (Chrome 71'de
+      // eklendi) — React bunu kullanıyor, eksik olunca uygulama hiç
+      // başlamadan "queueMicrotask is not defined" hatasıyla beyaz ekranda
+      // kalıyordu (bir API 24 emülatöründe canlı test edilip bulundu).
+      // Modül script'lerinden ÖNCE, en erken noktada çalışması gerekiyor.
+      if (typeof queueMicrotask !== 'function') {
+        window.queueMicrotask = function (callback) {
+          Promise.resolve().then(callback).catch(function (e) {
+            setTimeout(function () {
+              throw e;
+            });
+          });
+        };
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
