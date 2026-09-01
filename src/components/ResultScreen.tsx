@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Capacitor } from "@capacitor/core";
 import type { SectorId, Stats } from "../types";
 import { getProfile, overallScore, pickStatTip, rankLabels, statLabels, weakest } from "../data/profiles";
 import StatBars from "./StatBars";
@@ -213,7 +214,7 @@ export default function ResultScreen({
           {challengeCopied ? "Link Kopyalandı ✓" : "🎯 Arkadaşını Meydan Oku"}
         </button>
         <button className="btn btn-secondary" onClick={handleDownloadImage} disabled={downloading}>
-          {downloading ? "Hazırlanıyor…" : "📄 Sonuç Raporunu İndir"}
+          {downloading ? "Hazırlanıyor…" : Capacitor.isNativePlatform() ? "📤 Sonuç Raporunu Paylaş" : "📄 Sonuç Raporunu İndir"}
         </button>
         <button
           className="btn btn-secondary"

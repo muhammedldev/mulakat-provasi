@@ -1,3 +1,7 @@
+import { Capacitor } from "@capacitor/core";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
+
 interface ShareCardData {
   emoji: string;
   rank: "bronze" | "silver" | "gold" | "platinum";
@@ -200,9 +204,33 @@ export function generateShareImage(data: ShareCardData): Promise<Blob | null> {
   return new Promise((resolve) => canvas.toBlob((blob) => resolve(blob), "image/png"));
 }
 
+function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve((reader.result as string).split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
 export async function downloadShareImage(data: ShareCardData, filename: string): Promise<boolean> {
   const blob = await generateShareImage(data);
   if (!blob) return false;
+
+  // Android WebView'de <a download> hiçbir şey yapmıyor (sessizce no-op) —
+  // native tarafta dosyayı gerçekten diske yazıp native paylaşım ekranını
+  // (WhatsApp/Galeri/Dosyalar) açmamız gerekiyor.
+  if (Capacitor.isNativePlatform()) {
+    try {
+      const base64 = await blobToBase64(blob);
+      const written = await Filesystem.writeFile({ path: filename, data: base64, directory: Directory.Cache });
+      await Share.share({ title: "Mülakat Provası Sonuç Raporu", url: written.uri });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
