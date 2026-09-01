@@ -14,7 +14,7 @@ Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmada
 3. ~~Android App Links (deep link)~~ ✅ **TAMAMLANDI (19. tur)**
 4. ~~Soru havuzu genişletmesi~~ ✅ **TAMAMLANDI (19. tur)** — kullanıcı "orta çaplı" seçti (AskUserQuestion ile netleştirildi): 20 yeni klasik soru + 10 yeni terim.
 5. ~~Haptic (titreşim) geri bildirimi~~ ✅ **TAMAMLANDI (19. tur)**
-6. **Hata izleme/analytics (Sentry vb.)** — kullanıcı AskUserQuestion'da "Şimdilik atla" dedi, listede bırakılıyor ama tekrar sorulmadan başlanmamalı.
+6. **Hata izleme/analytics (Sentry vb.)** — kullanıcı AskUserQuestion'da "Şimdilik atla" dedi (19. tur), 21. turda TEKRAR soruldu, kullanıcı yine "sonra düşünürüm" dedi — listede bırakılıyor ama tekrar sorulmadan başlanmamalı. Not: Sentry eklemek, uygulamanın şu anki "hiçbir veri cihazdan çıkmaz" mimarisini değiştirir (ana menüdeki footnote bunu açıkça vaat ediyor) — başlarken hem DSN key hem de o metnin güncellenmesi gerekecek.
 7. ~~Otomatik test suite~~ ✅ **TAMAMLANDI (19. tur)** — Vitest, 48 test, `npm run test`.
 8. **Play Store yayını** **← SIRADA BURADAN DEVAM ET** — imzalı release `.aab`, Play Console hesabı (kullanıcının kendi $25 ücretli hesabı gerekiyor, bu adım kullanıcının kendisinin yapması gereken kısımlar içeriyor).
 9. **Global skor tablosu / sosyal karşılaştırma** — şu an sadece 1'e 1 link ile meydan okuma var, kapsam en belirsiz/büyük madde (muhtemelen bir backend gerektirir — projenin "tamamen client-side, backend yok" mimarisine aykırı, kullanıcıyla ayrıca konuşulmalı).
@@ -31,6 +31,19 @@ Tüm kaynaklar gerçek, doğrulanabilir akademik/otoriter atıflar (ör. Kruger 
 **Uzunluk-önyargısı düzeltmesi (önceki turlarda kurulan disipline uyuldu):** İlk yazımda yeni 20 sorunun **15'inde**, yeni 10 terimin **8'inde** doğru cevap en uzun şıktı (`scripts/analyze-length-bias.ts` ile ölçüldü) — önceki turlarda düzeltilen aynı önyargı deseni yeni içerikte de tekrarlanmıştı. Yanlış şıklardan birine (anlamı/feedback'i bozmadan) kısa bir ek cümlecik eklenerek tek tek düzeltildi, birkaç tur ölçüm+düzeltme sonrası hedef banda ulaşıldı: **Klasik havuz %52→%39, Terim Küresi %44→%35** (ikisi de %35-45 hedef bandında). **Yeni içerik eklenirken bu script'i çalıştırmadan bitirilmiş sayma — ilk yazımda neredeyse her zaman doğru cevap daha uzun/detaylı çıkıyor, bu doğal bir yazım eğilimi.**
 
 `npm run build`/`npm run lint` temiz. id benzersizliği script ile doğrulandı (92 soru, 72 terim, hepsi benzersiz — 72+20 ve 62+10 ile eşleşiyor). Tarayıcıda smoke test yapıldı: Kaynakça ekranı yeni kaynaklarla hatasız açılıyor, konsol hatası yok. **Yeni maddelerin her biri tek tek oyunda karşılaşılarak görsel doğrulanmadı** (92 soru/72 terimden rastgele seçiliyor, hepsini tek tek görmek için çok sayıda oyun gerekirdi) — istenirse ileride ek bir doğrulama turu yapılabilir, ama statik analiz (id/format/uzunluk/build) + smoke test bu kapsam için yeterli kabul edildi.
+
+## 21. tur (devamı) — CI pipeline eklendi, mobil doğrulama yapıldı, Sentry tekrar soruldu
+
+Metin doğallaştırma sonrası kullanıcı hem web hem mobilde canlı doğrulama istedi:
+- **Web** (Vercel): Klasik Mülakat + Terim Küresi'nde kombo tetiklenerek 20. turdaki TermGlobeMode fix'i canlıda da doğrulandı, konsol tamamen temiz.
+- **Mobil** (`medium_phone` API 36 emülatör): `npx cap sync android && ./gradlew assembleDebug` ile yeni APK build edilip kuruldu. **Önemli gözlem:** `adb install -r` (reinstall) uygulama verisini/PWA service worker önbelleğini KORUYOR — bu yüzden ilk denemede eski metinler görünmüştü (bu emülatörde önceki turlardan kalma bir kurulum vardı). `adb uninstall` + temiz `adb install` ile düzeldi. **Yeni kullanıcılar için bu bir sorun değil** (ilk kurulumda zaten temiz), ama ileride "APK'yı test ediyorum, eski içerik görünüyor" gibi bir şikayet gelirse önce bunu kontrol et. Mobilde de kombo/feedback metinleri doğru render oldu. Logcat'te tek hata Capacitor'ın kendi native `SystemBars` eklentisinden gelen zararsız bir "safe area CSS injection" hatasıydı (bizim kodumuzla ilgisi yok, görsel etkisi yok) — kayda değer ama aksiyon gerektirmiyor.
+- **Test aracı notu:** `adb shell input tap X Y` için doğru koordinatları tahmin etmek yerine `adb shell uiautomator dump //sdcard/ui.xml && adb pull //sdcard/ui.xml` ile gerçek element `bounds`'unu almak çok daha güvenilir (screenshot üzerinden 1.2x ölçek tahmini hataya açık). Ayrıca git-bash/MSYS'te `adb pull //sdcard/...` gibi çift-slash kullanmak, yerel Windows yoluna otomatik path-conversion'ı (adb.exe native bir binary olduğu için) önlüyor.
+
+Ardından kullanıcı "genel durum nedir, play store dışında ne eksik" diye sordu. Verilen özet: iOS hiç kurulmadı (ama `@capacitor/ios` paketi zaten `package.json`'da — `npx cap add ios` çalıştırılmadı), erişilebilirlik/TalkBack test edilmedi, gerçek cihaz test edilemedi (ortam kısıtı), **CI pipeline yoktu**, madde 6 (Sentry/analytics) hâlâ atlanmış durumdaydı.
+
+**Kullanıcı kararı:** Önce CI pipeline kurulsun (hiçbir hesap/kurulum gerektirmiyor), Sentry kararını sonraya bıraktı — AskUserQuestion'da üçüncü seçeneği ("Önce CI'ı halledelim, Sentry'yi sonra düşünürüm") seçti. **Sentry'ye bir daha sormadan başlama.**
+
+**CI pipeline eklendi:** `.github/workflows/ci.yml` — her `push` (main/master) ve her `pull_request`'te Ubuntu runner'da Node 20 + `npm ci` + `npm run build` + `npm run lint` + `npm run test` çalışıyor. `package-lock.json` mevcut olduğu için `npm ci` sorunsuz çalışmalı; branch adı doğrulandı (`master`). GitHub Actions'ın workflow'u gerçekten tetikleyip tetiklemediği bir sonraki push'ta kullanıcı tarafından (ya da benim tarafımdan `gh run list` ile) doğrulanabilir — bu turda yapılmadı çünkü henüz push edilmedi.
 
 ## 21. tur — metin doğallaştırma: UI + terms.ts + questions.ts (2026-09-01)
 
