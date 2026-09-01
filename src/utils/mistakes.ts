@@ -1,4 +1,5 @@
 const MISTAKES_KEY = "mulakat-provasi-mistakes";
+const FIXED_COUNT_KEY = "mulakat-provasi-mistakes-fixed";
 
 // Bilerek hafif tutuldu — soru/terim havuzlarına (data/questions.ts vb.) hiç
 // import yapmıyor. `getMistakeCount()` ana menüde her render'da çağrılıyor;
@@ -40,6 +41,11 @@ export function clearMistake(id: string): void {
   if (id in map) {
     delete map[id];
     saveMistakeMap(map);
+    try {
+      localStorage.setItem(FIXED_COUNT_KEY, String(getFixedCount() + 1));
+    } catch {
+      /* ignore */
+    }
   }
 }
 
@@ -47,9 +53,21 @@ export function getMistakeCount(): number {
   return Object.keys(getMistakeMap()).length;
 }
 
+// "Zayıf Noktalarım" listesinden ömür boyu doğru cevaplanarak çıkarılan
+// soru/terim sayısı — mevcut anlık listeden farklı olarak hiç azalmaz,
+// başarım ilerlemesini takip etmek için kullanılıyor.
+export function getFixedCount(): number {
+  try {
+    return Number(localStorage.getItem(FIXED_COUNT_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+}
+
 export function clearAllMistakes(): void {
   try {
     localStorage.removeItem(MISTAKES_KEY);
+    localStorage.removeItem(FIXED_COUNT_KEY);
   } catch {
     /* ignore */
   }

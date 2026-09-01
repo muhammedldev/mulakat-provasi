@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import type { SectorId, Stats } from "../types";
-import { getProfile, overallScore, rankLabels, statLabels, statTips, weakest } from "../data/profiles";
+import { getProfile, overallScore, pickStatTip, rankLabels, statLabels, weakest } from "../data/profiles";
 import StatBars from "./StatBars";
 import AnimatedNumber from "./AnimatedNumber";
 import ConfettiBurst from "./ConfettiBurst";
@@ -39,6 +39,10 @@ export default function ResultScreen({
   const profile = getProfile(stats);
   const score = overallScore(stats);
   const weakStat = weakest(stats);
+  // Sonuç ekranı her yeni oyunda yeniden mount olduğu için component ömrü
+  // boyunca sabit kalması yeterli — aksi halde her re-render'da ipucu
+  // değişip ekrandaki metinle indirilen görseldeki metin tutarsızlaşırdı.
+  const [tip] = useState(() => pickStatTip(weakStat));
   const duelResult = incomingChallenge
     ? score > incomingChallenge.score
       ? "win"
@@ -88,7 +92,7 @@ export default function ResultScreen({
             { label: statLabels.ozguven, icon: "⭐", value: stats.ozguven, color: "#fbbf24" },
           ],
           tipLabel: statLabels[weakStat],
-          tip: statTips[weakStat],
+          tip,
           footer: "mulakat-provasi ile hazırlandı",
         },
         "mulakat-provasi-sonuc-raporu.png"
@@ -189,7 +193,7 @@ export default function ResultScreen({
 
       <div className="tip-card">
         <p className="tip-title">İpucu: {statLabels[weakStat]}</p>
-        <p>{statTips[weakStat]}</p>
+        <p>{tip}</p>
       </div>
 
       <div className="result-actions">

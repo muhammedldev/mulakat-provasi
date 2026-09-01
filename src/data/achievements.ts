@@ -1,4 +1,5 @@
 import { getBestStreak, getDailyStreak, getGamesPlayed, getXP, unlockAchievement } from "../utils/storage";
+import { getFixedCount } from "../utils/mistakes";
 
 export interface Achievement {
   id: string;
@@ -101,6 +102,30 @@ export const achievements: Achievement[] = [
     icon: "📚",
     title: "Kaynak Kâşifi",
     description: "Kaynakça'yı aç, sorular ve terimlerin dayandığı kaynakları incele.",
+  },
+  {
+    id: "zayif-nokta-avcisi",
+    icon: "🧹",
+    title: "Zayıf Nokta Avcısı",
+    description: "Zayıf Noktalarım listesinden toplam 15 soru/terimi doğru bilerek listeden çıkar.",
+    target: 15,
+    progress: () => getFixedCount(),
+  },
+  {
+    id: "kidemli",
+    icon: "💎",
+    title: "Kıdemli",
+    description: "Toplamda 2000 XP kazan.",
+    target: 2000,
+    progress: () => getXP(),
+  },
+  {
+    id: "yorulmaz",
+    icon: "🔋",
+    title: "Yorulmaz",
+    description: "Toplamda 30 oyun tamamla.",
+    target: 30,
+    progress: () => getGamesPlayed(),
   },
 ];
 
