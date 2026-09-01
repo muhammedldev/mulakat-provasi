@@ -180,8 +180,7 @@ export default function MainMenu({
         </div>
 
         <p className="intro-footnote">
-          Yalnızca ilerleme durumun bu cihazda hatırlanır — başka hiçbir veri kaydedilmez ya da
-          gönderilmez.
+          İlerlemen sadece bu telefonda/tarayıcıda tutulur, hiçbir yere gönderilmez.
         </p>
       </motion.div>
 

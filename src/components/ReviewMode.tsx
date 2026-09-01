@@ -58,7 +58,7 @@ export default function ReviewMode({ onExit }: { onExit: () => void }) {
         <h1>{items.length === 0 ? "Şu an zayıf noktan yok!" : "Tekrar zamanı"}</h1>
         <p className="intro-text">
           {items.length === 0
-            ? "Yanlış cevapladığın sorular burada birikir. Şu an listende hiçbir şey yok — harika gidiyorsun!"
+            ? "Yanlış cevapladığın sorular burada birikir. Şu an listen boş, temizsin."
             : `Daha önce yanlış cevapladığın ${items.length} soru/terim burada. Doğru cevaplarsan listeden çıkar, yine yanlış yaparsan kalır.`}
         </p>
         {items.length > 0 && (
@@ -86,8 +86,8 @@ export default function ReviewMode({ onExit }: { onExit: () => void }) {
         <h1>{fixedCount}/{items.length} güçlendirildi</h1>
         <p className="intro-text">
           {fixedCount === items.length
-            ? "Listendeki her şeyi doğru bildin — zayıf noktaların tamamen temizlendi!"
-            : "Bazıları hâlâ listede duruyor, bir dahaki sefere tekrar karşına çıkacaklar. Pratik yapmaya devam!"}
+            ? "Listedeki her şeyi doğru bildin, zayıf noktaların temizlendi."
+            : "Bazıları hâlâ listede duruyor, bir dahaki sefere tekrar karşına çıkacaklar."}
         </p>
         <div className="result-actions">
           <button className="btn btn-primary" onClick={onExit}>

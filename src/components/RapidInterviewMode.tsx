@@ -41,15 +41,15 @@ function clamp(v: number): number {
 
 function resultProfile(accuracy: number, composure: number) {
   if (accuracy >= 70 && composure >= 70) {
-    return { emoji: "🧊", title: "Sakin Kaptan", desc: "Baskı arttıkça sen de netleştin — hem doğru hem sakin kaldın. Gerçek bir mülakatta bu tam aranan denge." };
+    return { emoji: "🧊", title: "Sakin Kaptan", desc: "Baskı arttıkça sen de netleştin, hem doğru hem sakin kaldın. Gerçek bir mülakatta aranan tam bu." };
   }
   if (accuracy >= 70 && composure < 70) {
-    return { emoji: "⚡", title: "Performans Canavarı ama Gergin", desc: "Doğru cevapları buluyorsun ama süreç seni yoruyor gibi. Cevaplamadan önce tek bir derin nefes, sakinliğini büyük ölçüde artırabilir." };
+    return { emoji: "⚡", title: "Performans Canavarı ama Gergin", desc: "Cevapları buluyorsun ama süreç seni geriyor. Cevaplamadan önce bir nefes alman işe yarayabilir." };
   }
   if (accuracy < 70 && composure >= 70) {
-    return { emoji: "🌊", title: "Sakin ama Temkinli", desc: "Baskı seni hiç bozmuyor — bu değerli bir özellik. Şimdi bu sakinliği daha isabetli kararlarla birleştirmeye odaklanabilirsin." };
+    return { emoji: "🌊", title: "Sakin ama Temkinli", desc: "Baskı seni hiç bozmuyor, bu iyi bir şey. Şimdi sırada bu sakinliği daha isabetli kararlarla birleştirmek var." };
   }
-  return { emoji: "🌱", title: "Toparlanma Zamanı", desc: "Bu tur biraz zorlayıcıydı, hepimiz için olur. Küçük bir mola sonrası tekrar denemek, hem doğruluğunu hem sakinliğini hızla artırır." };
+  return { emoji: "🌱", title: "Toparlanma Zamanı", desc: "Bu tur zorlayıcıydı, olur böyle şeyler. Kısa bir mola sonrası tekrar dene." };
 }
 
 export default function RapidInterviewMode({
@@ -149,8 +149,8 @@ export default function RapidInterviewMode({
         <p className="intro-text">
           {questions.length} karışık soru seni bekliyor: uygulama, teorik, vaka analizi ve
           öz-yönetim (durumsal yargı) soruları art arda geliyor. Her sorunun süresi bir öncekinden
-          biraz daha kısa — ama {MIN_TIME} saniyenin altına asla inmiyor. Amaç mükemmel olmak değil,
-          baskı arttıkça kendini kaybetmemek.
+          biraz daha kısa, ama {MIN_TIME} saniyenin altına inmiyor. Amaç mükemmel olmak değil,
+          baskı büyüdükçe kendini kaybetmemek.
         </p>
         <button className="btn btn-primary btn-glow" onClick={start}>
           Başla

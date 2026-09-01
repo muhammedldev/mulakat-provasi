@@ -47,8 +47,8 @@ export async function scheduleStreakReminder(alreadyPlayedToday: boolean): Promi
       notifications: [
         {
           id: REMINDER_ID,
-          title: "Serini kaybetme! 🔥",
-          body: "Bugün henüz pratik yapmadın — birkaç dakikanı ayırıp günlük serini koru.",
+          title: "Serin gidiyor 🔥",
+          body: "Bugün henüz oynamadın. Birkaç dakikan varsa serini koru.",
           schedule: { at: nextReminderDate(alreadyPlayedToday) },
           // Bir "günlük hatırlatıcı" dakikası dakikasına kesin olmak zorunda
           // değil — varsayılan (true) Android 12+'ta kullanıcıyı otomatik

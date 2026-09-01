@@ -27,7 +27,7 @@ export const termCards: TermCard[] = [
       "İşten çıkarılmadan önce istifa dilekçesi hazırlamak",
     ],
     correctIndex: 1,
-    explanation: "Quiet quitting, işi bırakmak değil; fazladan gönüllü çabayı azaltıp yalnızca tanımlı görevleri yapmayı ifade eder.",
+    explanation: "Quiet quitting işi bırakmak değil, fazladan gönüllü çabayı bırakıp sadece tanımlı görevleri yapmaktır.",
     source:
       "Terim Temmuz 2022'de TikTok'ta (@zaidleppelin) viral olarak yayıldı; ardından Gallup'un 'State of the Global Workplace' raporlarında (2022-2023) bir iş gücü eğilimi olarak ele alındı.",
   },
@@ -142,7 +142,7 @@ export const termCards: TermCard[] = [
       "Performansı düşük çalışanları kademeli olarak işten çıkarma süreci",
     ],
     correctIndex: 0,
-    explanation: "Golden handcuffs, finansal teşviklerin bir çalışanı -mutsuz olsa bile- şirkette tutmasını ifade eder; kısa vadede işe yarasa da kök sorunu çözmez.",
+    explanation: "Golden handcuffs, finansal teşviklerin bir çalışanı mutsuz olsa bile şirkette tutması demek. Kısa vadede işe yarasa da kök sorunu çözmez.",
     source: "Ücretlendirme ve İK literatüründe yaygın kullanılan yerleşik bir terimdir; tek bir akademik kaynağa dayanmaz.",
   },
   {
@@ -158,7 +158,7 @@ export const termCards: TermCard[] = [
       "İşten çıkarma kararını yazılı değil sözlü bildirmek, usulsüz sayılır",
     ],
     correctIndex: 1,
-    explanation: "Quiet firing, resmi bir süreç başlatmadan çalışanı dolaylı yollarla istifaya iten pasif bir yöntemdir — etik açıdan tartışmalıdır.",
+    explanation: "Quiet firing, resmi bir süreç başlatmadan çalışanı dolaylı yollarla istifaya iten pasif bir yöntem. Etik açıdan tartışmalı bulunuyor.",
     source:
       "Popüler İK medyasında (LinkedIn, Harvard Business Review makaleleri) 2022 civarında, 'quiet quitting' kavramına paralel olarak yaygınlaşan bir terimdir; tek bir akademik ilk kaynağa dayanmaz.",
   },
@@ -225,7 +225,7 @@ export const termCards: TermCard[] = [
       "Reskilling maaş artışı, upskilling unvan değişikliği anlamına gelir, çünkü ikisi de kariyer ödülüdür",
     ],
     correctIndex: 1,
-    explanation: "Reskilling, bambaşka bir role geçiş için yeni beceri kazandırmayı; upskilling ise mevcut rolde mevcut becerileri ileri taşımayı ifade eder.",
+    explanation: "Reskilling, çalışana bambaşka bir role geçiş için yeni beceri kazandırmaktır. Upskilling ise mevcut rolde mevcut becerileri ileri taşımaya odaklanır.",
     source:
       "Dünya Ekonomik Forumu'nun (WEF) 'Future of Jobs' raporlarında (2016 sonrası) sıkça vurgulanan bir yetkinlik geliştirme çerçevesidir; tek bir akademik ilk kaynağa dayanmaz.",
   },
@@ -323,7 +323,7 @@ export const termCards: TermCard[] = [
       "Şirketin tek bir ürüne odaklanması, bilinçli bir tercihtir",
     ],
     correctIndex: 1,
-    explanation: "Silo mentalitesi, departmanların kendi hedeflerine kapanıp diğer birimlerle iş birliği ve bilgi paylaşımını azaltmasıdır — genellikle verimliliği düşürür.",
+    explanation: "Silo mentalitesi, departmanların kendi hedeflerine kapanıp diğer birimlerle iş birliğini ve bilgi paylaşımını azaltması. Genellikle verimliliği düşürür.",
     source: "Organizasyon davranışı literatüründe yaygın kullanılan bir kavramdır; tek bir akademik ilk kaynağa dayanmaz.",
   },
   {
@@ -355,7 +355,7 @@ export const termCards: TermCard[] = [
       "Adayın giydiği kıyafetin maaş teklifini doğrudan belirlemesi, genelde profesyonel görünümün pazarlık gücünü artırdığı düşünülür",
     ],
     correctIndex: 0,
-    explanation: "Hâle etkisi, tek bir çarpıcı özelliğin genel değerlendirmeyi gölgede bırakmasıdır — yapılandırılmış mülakatlar bu yanlılığı azaltmaya yardımcı olur.",
+    explanation: "Hâle etkisi, tek bir çarpıcı özelliğin genel değerlendirmeyi gölgede bırakması. Yapılandırılmış mülakatlar bu yanlılığı azaltmaya yardımcı olur.",
     source: "Thorndike, E.L. (1920). 'A Constant Error in Psychological Ratings'. Journal of Applied Psychology.",
   },
   {
@@ -415,7 +415,7 @@ export const termCards: TermCard[] = [
       "Yeni çalışanları işe başladıktan sonra herkese duyurmadan sisteme eklemek, genelde İK operasyonlarının rutin, arka plan işleyişinin bir parçasıdır",
     ],
     correctIndex: 0,
-    explanation: "Gartner'ın 2023'te popülerleştirdiği bu kavram, tam zamanlı yeni işe alım yapmadan iç yetenek transferi veya geçici uzmanlıkla ihtiyacı karşılamayı ifade eder.",
+    explanation: "Gartner'ın 2023'te popülerleştirdiği bu kavram, tam zamanlı yeni işe alım yapmak yerine iç yetenek transferi veya geçici uzmanlıkla ihtiyacı karşılamayı anlatıyor.",
     source: "Gartner araştırma raporları (2023) — 'quiet hiring' terimini popülerleştiren analist firma.",
   },
   {
@@ -431,7 +431,7 @@ export const termCards: TermCard[] = [
       "İşten ayrılmadan önce tazminat pazarlığı yapmak, genelde İK ve hukuk departmanlarının dahil olduğu resmi bir süreçtir",
     ],
     correctIndex: 0,
-    explanation: "Career cushioning, olası bir iş kaybına karşı önceden 'yastık' oluşturmak amacıyla ağ kurma, CV güncelleme ve pasif iş arama gibi hazırlıklar yapmayı ifade eder.",
+    explanation: "Career cushioning, olası bir iş kaybına karşı önceden 'yastık' oluşturmak amacıyla ağ kurma, CV güncelleme ve pasif iş arama gibi hazırlıklar yapmak demek.",
     source: "Popüler İK ve kariyer medyasında (LinkedIn, Forbes) 2022-2023 döneminde, ekonomik belirsizlik ve toplu işten çıkarma haberleriyle birlikte yaygınlaşan bir terimdir; tek bir akademik ilk kaynağa dayanmaz.",
   },
   {
@@ -447,7 +447,7 @@ export const termCards: TermCard[] = [
       "Şirketin performans değerlendirme sıklığının düşük olması, geri bildirim eksikliğidir",
     ],
     correctIndex: 1,
-    explanation: "Conscious quitting, çalışanların yalnızca maaş/kariyer değil, şirketin etik duruşu ve toplumsal etkisiyle kendi değerleri arasında uyum aramasını ifade eder; özellikle genç kuşakta belirgin bir eğilim olarak öne çıkıyor.",
+    explanation: "Conscious quitting, çalışanların yalnızca maaş/kariyer değil, şirketin etik duruşu ve toplumsal etkisiyle kendi değerleri arasında uyum aramasıdır. Özellikle genç kuşakta belirgin bir eğilim olarak öne çıkıyor.",
     source: "PwC'nin 2023 'Global Workforce Hopes and Fears' araştırmasında öne çıkan bir kavramdır; popüler İK medyasında da bu araştırmaya atfen kullanılmaktadır.",
   },
   {
@@ -463,7 +463,7 @@ export const termCards: TermCard[] = [
       "Bir şirketin çalışanlarına ücretsiz izin vermesi, yan hak politikasıdır",
     ],
     correctIndex: 2,
-    explanation: "Work (çalışmak) ve vacation (tatil) kelimelerinin birleşiminden oluşan workation, uzaktan çalışmanın yaygınlaşmasıyla birlikte tatil yaparken çalışmaya devam etmeyi ifade eder.",
+    explanation: "Work (çalışmak) ve vacation (tatil) kelimelerinin birleşiminden oluşan workation, tatildeyken çalışmaya devam etmek demek. Uzaktan çalışmanın yaygınlaşmasıyla popülerleşti.",
   },
   {
     id: "return-to-office-mandate",
@@ -591,7 +591,7 @@ export const termCards: TermCard[] = [
       "Çalışanın terfi almaya hazır olması, olumlu bir sinyaldir ve ödüllendirilmelidir",
     ],
     correctIndex: 1,
-    explanation: "Flight risk, bir çalışanın (düşük bağlılık, dış piyasa fırsatları gibi sinyallerle) yakın vadede ayrılma olasılığının yüksek görüldüğü durumları tanımlar; İK bu çalışanlara genelde proaktif yaklaşır.",
+    explanation: "Flight risk, bir çalışanın (düşük bağlılık, dış piyasa fırsatları gibi sinyallerle) yakın vadede ayrılma olasılığının yüksek görüldüğü durumları tanımlar. İK bu çalışanlara genelde proaktif yaklaşır.",
   },
   {
     id: "pay-transparency",
@@ -639,7 +639,7 @@ export const termCards: TermCard[] = [
       "Bir şirketin IT altyapısını dışarıdan tedarik etmesi, genelde maliyet avantajı nedeniyle tercih edilen bir dış kaynak modelidir",
     ],
     correctIndex: 1,
-    explanation: "Algoritmik yönetim, özellikle platform/gig ekonomisinde (kurye, sürücü uygulamaları gibi) görev atama, performans değerlendirme gibi yönetsel kararların insan yöneticiler yerine algoritmalarca verilmesini ifade eder.",
+    explanation: "Algoritmik yönetim, özellikle platform/gig ekonomisinde (kurye, sürücü uygulamaları gibi) görev atama ve performans değerlendirme gibi kararların insan yöneticiler yerine algoritmalarca verilmesi demek.",
     source:
       "Lee, M.K., Kusbit, D., Metsky, E. ve Dabbish, L. (2015). 'Working with Machines: The Impact of Algorithmic and Data-Driven Management on Human Workers'. CHI 2015 Conference Proceedings.",
   },
@@ -656,7 +656,7 @@ export const termCards: TermCard[] = [
       "Bir projeyi baştan sona tek başına tasarlaması, genelde bireysel inisiyatif ve bağımsız çalışma becerisinin göstergesi sayılır",
     ],
     correctIndex: 1,
-    explanation: "Wrzesniewski ve Dutton'ın 2001'de akademik literatüre kazandırdığı bu kavram, çalışanların resmi iş tanımları aynı kalsa da günlük görevlerini, ilişkilerini ve işe bakışlarını kendi güçlü yönlerine göre proaktif şekilde yeniden şekillendirmesini ifade eder.",
+    explanation: "Wrzesniewski ve Dutton'ın 2001'de akademik literatüre kazandırdığı bu kavram, çalışanların resmi iş tanımları aynı kalsa da günlük görevlerini, ilişkilerini ve işe bakışlarını kendi güçlü yönlerine göre yeniden şekillendirmesi demek.",
     source: "Wrzesniewski, A. ve Dutton, J.E. (2001). 'Crafting a Job: Revisioning Employees as Active Crafters of Their Work'. Academy of Management Review.",
   },
   {
@@ -705,7 +705,7 @@ export const termCards: TermCard[] = [
       "Bir şirketin işe alım sürecini tamamen dijitalleştirmesi, ATS üzerinden yürütülür",
     ],
     correctIndex: 0,
-    explanation: "Ghosting, hem adayların (mülakata gelmeme, teklife yanıt vermeme) hem de işverenlerin (süreç sonrası hiç dönüş yapmama) sıkça başvurduğu, iletişimi habersizce kesme davranışıdır — son yıllarda her iki yönde de yaygınlığı artan bir sorun.",
+    explanation: "Ghosting, hem adayların (mülakata gelmeme, teklife yanıt vermeme) hem de işverenlerin (süreç sonrası hiç dönüş yapmama) sıkça başvurduğu, iletişimi habersizce kesme davranışı. Son yıllarda her iki yönde de yaygınlığı artıyor.",
     source: "Indeed ve SHRM'in işe alım anketlerinde (2019 sonrası) sıkça ele alınan bir davranış eğilimidir; tek bir akademik ilk kaynağa dayanmaz.",
   },
   {
@@ -896,7 +896,7 @@ export const termCards: TermCard[] = [
       "Ofis binalarının şehir merkezlerine taşınması, genelde ulaşım kolaylığı sağlamak amacıyla alınan bir karardır",
     ],
     correctIndex: 1,
-    explanation: "Yakınlık yanlılığı, yöneticinin fiziksel olarak daha görünür olan çalışanları (genelde ofiste olanları) objektif performanstan bağımsız olarak kayırma eğilimidir — hibrit çalışmanın önemli risklerinden biri sayılır.",
+    explanation: "Yakınlık yanlılığı, yöneticinin fiziksel olarak daha görünür olan çalışanları (genelde ofiste olanları) objektif performanstan bağımsız olarak kayırma eğilimi. Hibrit çalışmanın önemli risklerinden biri sayılır.",
     source:
       "Hibrit çalışmanın yaygınlaşmasıyla 2021-2022 döneminde iş dünyası medyasında (Harvard Business Review, Owl Labs raporları) sıkça tartışılan bir kavramdır; tek bir akademik ilk kaynağa dayanmaz.",
   },
@@ -913,7 +913,7 @@ export const termCards: TermCard[] = [
       "Performansı yüksek çalışanlara verilen yıllık prim, genelde hedeflerin üzerine çıkan çalışanlara yıl sonunda ödenen bir bonustur",
     ],
     correctIndex: 1,
-    explanation: "Altın paraşüt, genelde üst düzey yöneticilerin şirket devralınması veya kontrol değişikliği durumunda görevden ayrılmaları hâlinde alacakları büyük, önceden sözleşmeye bağlanmış tazminatı ifade eder.",
+    explanation: "Altın paraşüt, üst düzey yöneticilerin şirket devralınması veya kontrol değişikliği durumunda görevden ayrılmaları hâlinde alacakları büyük, önceden sözleşmeye bağlanmış tazminat demek.",
     source: "1980'lerdeki şirket devralma (M&A) dalgasında ABD kurumsal finans dünyasında yaygınlaşan bir terimdir; tek bir akademik ilk kaynağa dayanmaz.",
   },
   {
@@ -946,7 +946,7 @@ export const termCards: TermCard[] = [
       "Şirketin sadece uzun boylu çalışanları terfi ettirmesi, kanıtlanmamış bir iddiadır",
     ],
     correctIndex: 1,
-    explanation: "Tall poppy syndrome, bir tarladaki en uzun haşhaş çiçeğinin (poppy) kesilmesi metaforundan gelir — öne çıkan başarılı kişilerin kıskançlıkla küçültülmesi eğilimini tanımlar.",
+    explanation: "Tall poppy syndrome, bir tarladaki en uzun haşhaş çiçeğinin (poppy) kesilmesi metaforundan gelir. Öne çıkan başarılı kişilerin kıskançlıkla küçültülmesi eğilimini tanımlar.",
     source: "Avustralya ve Yeni Zelanda kökenli, akademik değil kültürel/folklorik bir deyimdir; tek bir yazılı ilk kaynağa dayanmaz.",
   },
   {

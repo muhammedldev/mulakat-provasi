@@ -49,8 +49,8 @@ export default function HowToPlayModal({ onClose }: { onClose: () => void }) {
       <ul className="howto-list">
         <li>
           16 karışık soru (uygulama, teorik, vaka analizi, öz-yönetim) art arda geliyor, her
-          sorunun süresi bir öncekinden biraz daha kısa. Amaç mükemmel olmak değil, baskı arttıkça
-          hem doğruluğunu hem sakinliğini koruyabilmek.
+          sorunun süresi bir öncekinden biraz daha kısa. Doğru cevap kadar, o baskı altında panik
+          yapmadan devam edebilmek de önemli.
         </li>
       </ul>
 

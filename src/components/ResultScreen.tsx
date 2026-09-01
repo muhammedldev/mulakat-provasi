@@ -188,7 +188,7 @@ export default function ResultScreen({
       <StatBars stats={stats} />
 
       <div className="tip-card">
-        <p className="tip-title">Sana özel ipucu — {statLabels[weakStat]}</p>
+        <p className="tip-title">İpucu: {statLabels[weakStat]}</p>
         <p>{statTips[weakStat]}</p>
       </div>
 

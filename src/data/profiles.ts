@@ -52,7 +52,7 @@ export function getProfile(stats: Stats): Profile {
       emoji: "🏆",
       rank: "platinum",
       description:
-        "Hazırlık, iletişim ve özgüveni dengeli biçimde harmanladın. Bu formda gerçek bir mülakata girsen, karşı taraf notlarını almakla meşgul olurdu.",
+        "Hazırlık, iletişim ve özgüven üçü de yerinde. Bu formda gerçek bir mülakata girsen karşı taraf seni not almakla geçirir.",
     };
   }
 
@@ -63,21 +63,21 @@ export function getProfile(stats: Stats): Profile {
         emoji: "📚",
         rank: "gold",
         description:
-          "Araştırman ve hazırlığın gözle görülür seviyede güçlü. Bu temeli biraz daha rahat ve akıcı bir anlatımla birleştirirsen fark yaratırsın.",
+          "Araştırman ve hazırlığın gerçekten güçlü. Bu temeli biraz daha rahat, akıcı bir anlatımla birleştirdiğinde fark ortaya çıkar.",
       },
       iletisim: {
         title: "Doğal Anlatıcı",
         emoji: "🎙️",
         rank: "gold",
         description:
-          "Kendini anlatmakta oldukça rahatsın ve karşı tarafı dinlerken zorlamıyorsun. Hazırlığını biraz daha derinleştirmen seni zirveye taşır.",
+          "Kendini anlatmakta rahatsın, karşı tarafı dinlerken de zorlanmıyorsun. Hazırlığını biraz daha derinleştirirsen zirve senin.",
       },
       ozguven: {
         title: "Sahne Işıltısı",
         emoji: "✨",
         rank: "gold",
         description:
-          "Odaya girdiğinde fark ediliyorsun; özgüvenin doğal ve rahatsız edici değil. Biraz daha somut hazırlıkla bu ışıltıyı destekleyebilirsin.",
+          "Odaya girdiğinde fark ediliyorsun, özgüvenin doğal duruyor, zorlama değil. Biraz daha somut hazırlıkla bu ışıltının arkasını doldurursun.",
       },
     };
     return byTop[top];
@@ -89,7 +89,7 @@ export function getProfile(stats: Stats): Profile {
       emoji: "💎",
       rank: "silver",
       description:
-        "Potansiyelin açıkça belli oluyor ama henüz tüm parçalar birbirine tam oturmamış. Birkaç prova daha yapman, seni bambaşka bir seviyeye taşıyacak.",
+        "Potansiyelin belli ama parçalar henüz tam oturmamış. Birkaç prova daha yaparsan fark hemen görülür.",
     };
   }
 
@@ -98,6 +98,6 @@ export function getProfile(stats: Stats): Profile {
     emoji: "🌱",
     rank: "bronze",
     description:
-      "Herkes bir yerden başlar — bu daha ilk provan. Aşağıdaki ipucunu not al, bir kez daha dene; her turda fark yaratacağını göreceksin.",
+      "Bu daha ilk provan, henüz ısınmadın bile. Aşağıdaki ipucuna bir göz at, tekrar dene.",
   };
 }

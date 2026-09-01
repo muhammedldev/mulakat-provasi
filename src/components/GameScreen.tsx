@@ -112,7 +112,7 @@ export default function GameScreen({
   useEffect(() => {
     const halfway = Math.floor(totalQuestions / 2);
     if (phase === "question" && questionIndex === halfway) {
-      onAchievement("🏁 Yarı yolu geçtin, harika gidiyorsun!");
+      onAchievement("🏁 Yarı yoldasın, böyle devam!");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionIndex, phase]);
