@@ -17,6 +17,38 @@ export function isSpeechSupported(): boolean {
 
 let speaking = false;
 
+// Native tarafta hangi ses indeksinin kullanılacağını bir kere hesaplayıp
+// önbelleğe alıyoruz — her konuşmada tekrar sorgulamaya gerek yok. `undefined`
+// = henüz hesaplanmadı, `null` = uygun ses bulunamadı (motor varsayılanı
+// kullanılır).
+let cachedNativeVoiceIndex: number | null | undefined;
+
+// Android'in TTS motoru (Google) bir dil için genelde birden fazla ses
+// sunuyor: "-local" (cihaz üstü, düşük kalite, kalın/robotik) ve "-network"
+// (Google'ın bulut motoru, WaveNet tabanlı, çok daha doğal). Hiçbiri
+// `default: true` işaretli olmuyor, motor sessizce local birini seçiyor —
+// bu yüzden network olanı elle bulup seçmemiz gerekiyor.
+async function pickNativeVoiceIndex(): Promise<number | undefined> {
+  if (cachedNativeVoiceIndex !== undefined) return cachedNativeVoiceIndex ?? undefined;
+  try {
+    const { voices } = await TextToSpeech.getSupportedVoices();
+    const trVoices = voices
+      .map((v, index) => ({ ...v, index }))
+      .filter((v) => v.lang?.toLowerCase().startsWith("tr"));
+    if (trVoices.length === 0) {
+      cachedNativeVoiceIndex = null;
+      return undefined;
+    }
+    const score = (v: (typeof trVoices)[number]) => (v.localService ? 0 : 2) + (v.default ? 1 : 0);
+    const best = [...trVoices].sort((a, b) => score(b) - score(a))[0];
+    cachedNativeVoiceIndex = best.index;
+    return best.index;
+  } catch {
+    cachedNativeVoiceIndex = null;
+    return undefined;
+  }
+}
+
 // Elimizdeki Türkçe seslerden en doğal duranı seçmeye çalışıyoruz — ağ
 // tabanlı sesler (Google'ın WaveNet motoru, Windows'un "Natural" sesleri gibi)
 // genelde cihazın eski/yerel motorundan çok daha az robotik çıkıyor. Cihazda
@@ -40,7 +72,8 @@ export function speak(text: string, onEnd?: () => void): void {
 
   if (Capacitor.isNativePlatform()) {
     speaking = true;
-    TextToSpeech.speak({ text, lang: "tr-TR", rate: 1.02, pitch: 1.1 })
+    pickNativeVoiceIndex()
+      .then((voice) => TextToSpeech.speak({ text, lang: "tr-TR", rate: 1.02, pitch: 1.1, voice }))
       .catch(() => {
         /* ignore — konuşma başlatılamadıysa sessizce vazgeç */
       })
