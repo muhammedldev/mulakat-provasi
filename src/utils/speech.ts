@@ -1,15 +1,21 @@
-// Soruları sesli okuma — tarayıcının yerleşik Web Speech API'si (SpeechSynthesis)
-// kullanılıyor, dışarıya hiçbir veri gitmiyor ve ekstra bir bağımlılık gerekmiyor.
-// Bazı tarayıcılar (özellikle mobil) Türkçe ses paketini yalnızca kullanıcı
-// etkileşiminden sonra veya asenkron olarak yüklüyor; bu yüzden `tr-TR` sesi
-// hazır değilse API sessizce varsayılan sese düşüyor (still functional, just
-// not guaranteed to sound Turkish on every device).
+import { Capacitor } from "@capacitor/core";
+import { TextToSpeech } from "@capacitor-community/text-to-speech";
+
+// Soruları sesli okuma. Web'de tarayıcının yerleşik Web Speech API'si
+// (SpeechSynthesis) kullanılıyor. Android'de bu API Capacitor'ın sardığı
+// WebView'de hiç mevcut değil (`"speechSynthesis" in window` sürekli false
+// dönüyor — WebView bileşeni, aynı cihazın normal Chrome'undan farklı olarak
+// bu API'yi hiç desteklemiyor, bilinen bir platform kısıtı) — bu yüzden
+// native tarafta telefonun kendi TTS motorunu doğrudan çağıran
+// @capacitor-community/text-to-speech eklentisini kullanıyoruz. İkisi de
+// dışarıya hiçbir veri göndermiyor, cihazın kendi sesini kullanıyor.
 
 export function isSpeechSupported(): boolean {
+  if (Capacitor.isNativePlatform()) return true;
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
-let currentUtterance: SpeechSynthesisUtterance | null = null;
+let speaking = false;
 
 // Elimizdeki Türkçe seslerden en doğal duranı seçmeye çalışıyoruz — ağ
 // tabanlı sesler (Google'ın WaveNet motoru, Windows'un "Natural" sesleri gibi)
@@ -31,6 +37,20 @@ function pickTurkishVoice(): SpeechSynthesisVoice | null {
 
 export function speak(text: string, onEnd?: () => void): void {
   if (!isSpeechSupported()) return;
+
+  if (Capacitor.isNativePlatform()) {
+    speaking = true;
+    TextToSpeech.speak({ text, lang: "tr-TR", rate: 1.02, pitch: 1.1 })
+      .catch(() => {
+        /* ignore — konuşma başlatılamadıysa sessizce vazgeç */
+      })
+      .finally(() => {
+        speaking = false;
+        onEnd?.();
+      });
+    return;
+  }
+
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
@@ -43,20 +63,28 @@ export function speak(text: string, onEnd?: () => void): void {
   utterance.rate = 1.02;
   utterance.pitch = 1.1;
   utterance.onend = () => {
-    if (currentUtterance === utterance) currentUtterance = null;
+    speaking = false;
     onEnd?.();
   };
   utterance.onerror = () => {
-    if (currentUtterance === utterance) currentUtterance = null;
+    speaking = false;
     onEnd?.();
   };
 
-  currentUtterance = utterance;
+  speaking = true;
   window.speechSynthesis.speak(utterance);
 }
 
 export function stopSpeaking(): void {
   if (!isSpeechSupported()) return;
+  speaking = false;
+  if (Capacitor.isNativePlatform()) {
+    void TextToSpeech.stop();
+    return;
+  }
   window.speechSynthesis.cancel();
-  currentUtterance = null;
+}
+
+export function isSpeaking(): boolean {
+  return speaking;
 }
