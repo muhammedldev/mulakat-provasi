@@ -28,7 +28,7 @@ function buildPrompts(): string[] {
 }
 
 type Phase = "intro" | "practice" | "result";
-type RecordPhase = "idle" | "recording" | "recorded";
+type RecordPhase = "idle" | "requesting" | "recording" | "recorded";
 
 export default function SpeakingPracticeMode({ onExit }: { onExit: () => void }) {
   const [prompts] = useState<string[]>(buildPrompts);
@@ -63,26 +63,37 @@ export default function SpeakingPracticeMode({ onExit }: { onExit: () => void })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Maksimum kayıt süresine ulaşınca otomatik durdur — setInterval'ın
+  // callback'i içinde doğrudan çağırmak yerine ayrı bir effect'te tutmak,
+  // state updater'ların içine yan etki sızdırmaktan kaçınıyor (bkz.
+  // TermGlobeMode'daki aynı desenin daha önce yol açtığı React uyarısı).
+  useEffect(() => {
+    if (recordPhase === "recording" && seconds >= MAX_RECORDING_SECONDS) {
+      handleStopRecording();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seconds, recordPhase]);
+
   const handleStartRecording = async () => {
+    // İzin diyaloğu ekranda beklerken buton hâlâ "idle" görünüp tekrar
+    // tıklanabilir olurdu — hızlı çift tıklama iki ayrı mikrofon akışı açıp
+    // birini sızdırabilirdi. "requesting" ara durumu bunu engelliyor.
+    if (recordPhase === "requesting") return;
     playClick();
     setMicError(null);
     discardAudio();
+    setRecordPhase("requesting");
     try {
       recordingRef.current = await startRecording();
     } catch {
+      setRecordPhase("idle");
       setMicError("Mikrofona erişilemedi — tarayıcı/uygulama izni reddetmiş olabilir.");
       return;
     }
     setSeconds(0);
     setRecordPhase("recording");
     timerRef.current = setInterval(() => {
-      setSeconds((s) => {
-        if (s + 1 >= MAX_RECORDING_SECONDS) {
-          handleStopRecording();
-          return s;
-        }
-        return s + 1;
-      });
+      setSeconds((s) => s + 1);
     }, 1000);
   };
 
@@ -190,14 +201,22 @@ export default function SpeakingPracticeMode({ onExit }: { onExit: () => void })
         <div className="speech-bubble">
           <span className="speech-bubble-tail" />
           <p>{prompt}</p>
-          <SpeakButton text={prompt} className="speech-bubble-speak" />
+          <SpeakButton
+            text={prompt}
+            className="speech-bubble-speak"
+            disabled={recordPhase === "recording" || recordPhase === "requesting"}
+          />
         </div>
 
         {micError && <p className="feedback-timeout">{micError}</p>}
 
-        {recordPhase === "idle" && (
-          <button className="btn btn-primary btn-glow" onClick={handleStartRecording}>
-            🎙️ Kaydı Başlat
+        {(recordPhase === "idle" || recordPhase === "requesting") && (
+          <button
+            className="btn btn-primary btn-glow"
+            onClick={handleStartRecording}
+            disabled={recordPhase === "requesting"}
+          >
+            {recordPhase === "requesting" ? "Mikrofon isteniyor…" : "🎙️ Kaydı Başlat"}
           </button>
         )}
 

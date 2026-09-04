@@ -3,7 +3,15 @@ import { isSpeechSupported, speak, stopSpeaking } from "../utils/speech";
 
 // Soru metnini sesli okutan küçük, tekrar kullanılabilir bir düğme. Tarayıcı
 // desteklemiyorsa (Web Speech API yoksa) hiçbir şey render etmiyor.
-export default function SpeakButton({ text, className = "" }: { text: string; className?: string }) {
+export default function SpeakButton({
+  text,
+  className = "",
+  disabled = false,
+}: {
+  text: string;
+  className?: string;
+  disabled?: boolean;
+}) {
   const [speaking, setSpeaking] = useState(false);
   const supported = isSpeechSupported();
 
@@ -30,6 +38,7 @@ export default function SpeakButton({ text, className = "" }: { text: string; cl
       type="button"
       className={`speak-btn${speaking ? " speak-btn--active" : ""} ${className}`}
       onClick={toggle}
+      disabled={disabled}
       aria-label={speaking ? "Sesli okumayı durdur" : "Soruyu sesli oku"}
       aria-pressed={speaking}
     >
