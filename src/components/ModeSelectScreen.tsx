@@ -3,7 +3,7 @@ import Tilt3D from "./Tilt3D";
 import { playClick } from "../utils/sound";
 
 interface ModeCard {
-  id: "classic" | "terms" | "rapid";
+  id: "classic" | "terms" | "rapid" | "speaking";
   icon: string;
   title: string;
   desc: string;
@@ -40,13 +40,22 @@ const modes: ModeCard[] = [
     color: "#ef4444",
     colorDark: "#b91c1c",
   },
+  {
+    id: "speaking",
+    icon: "🎙️",
+    title: "Konuşma Pratiği",
+    desc: "Soruyu sesli cevapla, kendi kaydını dinle. Puan yok, sadece pratik.",
+    meta: "~5 dakika · Mikrofon gerekir",
+    color: "#8b5cf6",
+    colorDark: "#6d28d9",
+  },
 ];
 
 export default function ModeSelectScreen({
   onSelect,
   onBack,
 }: {
-  onSelect: (mode: "classic" | "terms" | "rapid") => void;
+  onSelect: (mode: "classic" | "terms" | "rapid" | "speaking") => void;
   onBack: () => void;
 }) {
   return (

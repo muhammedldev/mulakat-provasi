@@ -6,7 +6,7 @@ Canlı: [mulakat-provasi.vercel.app](https://mulakat-provasi.vercel.app/)
 
 ## Ne var içinde
 
-Üç ana mod var. **Klasik Mülakat**, üç mülakatçıyla (İK, ekip lideri, işe alım müdürü) sırayla görüşüldüğü 18 soruluk hikâyeli bir prova — kolaydan zora ilerliyor, Hazırlık/İletişim/Özgüven puanları ve sonunda bir rütbe (Bronz'dan Platin'e) veriyor. İsteğe bağlı sektöre özel sorular da (Yazılım, Satış) eklenebiliyor. **Terim Küresi**, süre baskısı olmadan güncel İK terimlerini öğrenme modu. **Seri Mülakat** ise karışık sorularla, azalan sürede, hem doğruluğu hem sakinliği ölçüyor.
+Dört ana mod var. **Klasik Mülakat**, üç mülakatçıyla (İK, ekip lideri, işe alım müdürü) sırayla görüşüldüğü 18 soruluk hikâyeli bir prova — kolaydan zora ilerliyor, Hazırlık/İletişim/Özgüven puanları ve sonunda bir rütbe (Bronz'dan Platin'e) veriyor. İsteğe bağlı sektöre özel sorular da (Yazılım, Satış) eklenebiliyor. **Terim Küresi**, süre baskısı olmadan güncel İK terimlerini öğrenme modu. **Seri Mülakat** ise karışık sorularla, azalan sürede, hem doğruluğu hem sakinliği ölçüyor. **Konuşma Pratiği**, gerçek bir mülakat sorusunu sesli cevaplayıp kendi kaydını dinlediğin, puanlamasız bir mod — kayıtlar hiçbir yere kaydedilmiyor, ekrandan çıkınca siliniyor.
 
 Bunların yanında: yanlış cevapladığın soruların biriktiği bir "Zayıf Noktalarım" listesi, günde bir kez sorulan "Günün Sorusu" (streak takibiyle), arkadaşını link üzerinden meydan okumaya davet etme (hiçbir sunucu kullanmadan — her şey URL'ye kodlanıyor), 17 başarım + XP/seviye sistemi, skor geçmişini gösteren bir grafik, kaynakça ekranı (sorular gerçek akademik kaynaklara dayanıyor), sesli okuma, indirilebilir bir PNG sonuç kartı, ve PWA desteği.
 
@@ -72,7 +72,7 @@ src/
 
 ## Gizlilik
 
-Sunucu tarafı bileşen yok. İlerleme (skor, başarımlar, XP, ayarlar) sadece tarayıcının `localStorage`'ında duruyor. Meydan okuma linki bile sunucu kullanmıyor, her şey URL'ye kodlanıyor.
+Sunucu tarafı bileşen yok. İlerleme (skor, başarımlar, XP, ayarlar) sadece tarayıcının `localStorage`'ında duruyor. Meydan okuma linki bile sunucu kullanmıyor, her şey URL'ye kodlanıyor. Konuşma Pratiği'ndeki mikrofon kayıtları da hiçbir yere gönderilmiyor/kaydedilmiyor — sadece RAM'de, o ekrandan çıkana kadar tutuluyor.
 
 ## Lisans
 

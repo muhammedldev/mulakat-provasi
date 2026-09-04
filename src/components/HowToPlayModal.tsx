@@ -54,6 +54,15 @@ export default function HowToPlayModal({ onClose }: { onClose: () => void }) {
         </li>
       </ul>
 
+      <p className="reference-section-title">🎙️ Konuşma Pratiği</p>
+      <ul className="howto-list">
+        <li>
+          Mikrofon izni gerekir. Bir soru gelir, cevabını sesli söyleyip kaydedersin, sonra kendi
+          kaydını dinlersin. Puan yok, doğru/yanlış yok — amaç kendi sesini duymak. Kayıtlar hiçbir
+          yere kaydedilmez, ekrandan çıkınca silinir.
+        </li>
+      </ul>
+
       <p className="reference-section-title">Diğer özellikler</p>
       <ul className="howto-list">
         <li>

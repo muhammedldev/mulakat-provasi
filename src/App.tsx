@@ -25,6 +25,7 @@ const ChallengeIntroScreen = lazy(() => import("./components/ChallengeIntroScree
 const ClassicGameContainer = lazy(() => import("./components/ClassicGameContainer"));
 const TermGlobeMode = lazy(() => import("./components/TermGlobeMode"));
 const RapidInterviewMode = lazy(() => import("./components/RapidInterviewMode"));
+const SpeakingPracticeMode = lazy(() => import("./components/SpeakingPracticeMode"));
 const ReviewMode = lazy(() => import("./components/ReviewMode"));
 const DailyChallengeMode = lazy(() => import("./components/DailyChallengeMode"));
 
@@ -35,6 +36,7 @@ type AppMode =
   | "classic"
   | "terms"
   | "rapid"
+  | "speaking"
   | "review"
   | "daily"
   | "challenge-intro";
@@ -246,6 +248,8 @@ export default function App() {
         {mode === "terms" && <TermGlobeMode onExit={backToMenu} onAchievement={pushToast} />}
 
         {mode === "rapid" && <RapidInterviewMode sector={rapidSector} onExit={backToMenu} onAchievement={pushToast} />}
+
+        {mode === "speaking" && <SpeakingPracticeMode onExit={backToMenu} />}
 
         {mode === "classic" && (
           <ClassicGameContainer

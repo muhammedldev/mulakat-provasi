@@ -1795,6 +1795,53 @@ button {
   }
 }
 
+.record-btn {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  background: radial-gradient(circle at 32% 28%, #3b82f6, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 8px 0 #1d4ed8, 0 16px 26px -8px #1d4ed8aa;
+  margin: 20px auto;
+  display: block;
+}
+
+.record-btn--active {
+  background: radial-gradient(circle at 32% 28%, #ef4444, #b91c1c);
+  box-shadow: 0 8px 0 #b91c1c, 0 16px 26px -8px #b91c1caa;
+  animation: record-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes record-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.record-active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.record-timer {
+  font-weight: 700;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+
+.record-playback {
+  width: 100%;
+  margin: 12px 0;
+}
+
 .term-orb-rays {
   position: absolute;
   inset: -30px;
