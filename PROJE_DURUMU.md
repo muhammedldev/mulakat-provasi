@@ -1,6 +1,14 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-02 (23. tur — localhost linki ve sesli okuma Android'de hiç çalışmıyordu, ikisi de düzeltildi ve kullanıcının kendi cihazında doğrulandı).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-04 (24. tur — yeni mod: Konuşma Pratiği, mikrofon kaydı ile).**
+
+## 24. tur — Konuşma Pratiği modu eklendi (2026-09-04)
+
+Kullanıcı rakip uygulamalara kıyasla en büyük eksiğin "gerçek konuşma pratiği" olduğunu belirtti (sadece TTS okuma var, kullanıcının kendi sesini kaydetme yok). Yeni bir mod eklendi: `SpeakingPracticeMode.tsx` — mevcut Klasik Mülakat soru havuzundan (yeni içerik yazmadan, `questionPool`'daki `interviewerLine`'lardan, 150 karakter altı olanlar filtrelenerek) 8 soru geliyor, kullanıcı mikrofonla cevabını kaydedip kendi kaydını dinliyor. Puan/doğru-yanlış yok. **Kayıtlar hiçbir yere kaydedilmiyor** — sadece o an için RAM'de, sonraki soruya geçince/ekrandan çıkınca `URL.revokeObjectURL` ile siliniyor (kullanıcı bilerek bu şekilde istedi, kalıcı saklama değil).
+
+**Önce API'nin gerçekten çalışıp çalışmadığı doğrulandı (bu oturumun tekrarlayan dersi).** TTS'in aksine `getUserMedia`/`MediaRecorder` Capacitor'ın Android WebView'inde gerçekten mevcut (Capacitor'ın `BridgeWebChromeClient.onPermissionRequest`'i getUserMedia izinlerini native runtime permission sistemine doğru yönlendiriyor) — ama yine de **ikinci bir gizli tuzak vardı**: Capacitor'ın izin köprüsü `RECORD_AUDIO` VE `MODIFY_AUDIO_SETTINGS` izinlerini BİRLİKTE istiyor, `MODIFY_AUDIO_SETTINGS` manifest'e eklenmemişse (normal/otomatik-verilir bir izin olmasına rağmen) tüm çoklu-izin isteği "reddedildi" sayılıyor — kullanıcı native dialogda "While using the app" dese bile `getUserMedia` "NotAllowedError" ile başarısız oluyordu. `AndroidManifest.xml`'e `MODIFY_AUDIO_SETTINGS` eklenince düzeldi. Emülatörde uçtan uca doğrulandı: izin dialogu çıktı, kayıt başlarken Android'in sistem "mikrofon kullanımda" göstergesi (yeşil nokta) yandı, durdurunca gerçek oynatılabilir ses üretildi (native `<audio controls>` ile "1:08" gibi gerçek süreler görüldü), sonraki soruya geçince eski kayıt temizlendi.
+
+**Teknik not:** Bir tarayıcı API'sinin Capacitor WebView'de native izin/donanıma gerçekten ulaşıp ulaşmadığını debug etmenin en hızlı yolu: geçici `console.log` + `adb logcat -d --pid=<PID>` (bu oturumda üçüncü kez kullanıldı — TTS, sonra bu). `dumpsys package <paket> | grep <İZİN>` ile Android'in izni GERÇEKTEN verip vermediğini (`granted=true/false`) doğrulamak, "dialogda doğru butona bastım ama hâlâ çalışmıyor" gibi durumlarda neyin native seviyede olup olmadığını (izin mi, yoksa WebView/manifest eksikliği mi) ayırt etmek için kritik.
 
 ## 23. tur — iki tane daha "Android'de hiç çalışmıyordu" bug'ı (2026-09-02)
 
