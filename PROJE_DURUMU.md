@@ -1,6 +1,14 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (30. tur — og-image yenilendi, sonuç kartına gerçek Mika çizimi + "Mika ile ölçüldü" damgası eklendi).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (31. tur — IntroSplash'in Lighthouse Speed Index'i kötüleştirdiği bulunup düzeltildi).**
+
+## 31. tur — genel optimizasyon: IntroSplash'in performans regresyonu (2026-09-05)
+
+Kullanıcı "genel optimizasyon" istedi, canlı siteye tekrar Lighthouse çalıştırıldı (26. turdaki ölçümle karşılaştırmak için). **Gerçek bir regresyon bulundu:** Speed Index 2.7s → 4.5s'e çıkmış, performans skoru 98 → 96'ya düşmüştü. Sebep: 29. turda eklenen `IntroSplash` tam ekranı 1.4 saniye kaplıyordu — Lighthouse'un görsel tamamlanma algoritması, arkada zaten boyanmış olan MainMenu'yü saymıyor, üstteki opak katman kalkana kadar "içerik hazır değil" sayıyor.
+
+**Düzeltme:** (1) `AUTO_DISMISS_MS` 1400ms → 700ms, (2) `localStorage` flag (`mulakat-provasi-intro-seen`) ile artık **sadece cihazda ilk kez** gösteriliyor — tekrar ziyaretlerde hiç render edilmiyor. `resetProgress()`'e bilerek eklenmedi (ayarlar/tercihler gibi davranıyor, oyun ilerlemesi değil — tema/ses/font-scale de aynı şekilde sıfırlamadan etkilenmiyor, tutarlı). Deploy sonrası tekrar ölçüldü: Speed Index 3.4s'e indi, performans skoru 97'ye çıktı — orijinal 98'e tam dönmedi (Lighthouse her zaman "temiz profil" simüle ettiği için intro'yu o testte hâlâ bir kez görüyor) ama gerçek kullanıcılar için maliyet artık sıfır (bir kez görüp bir daha hiç görmüyorlar), 97 zaten çok iyi bir skor — ekstra optimizasyon bu noktada gereksiz risk/karmaşıklık olurdu.
+
+**Ders:** yeni bir "her açılışta gösterilen" UI elemanı eklerken (tam ekran overlay, splash, tanıtım vb.) mutlaka Lighthouse ile önce/sonra karşılaştırması yapılmalı — görsel olarak "güzel" bir özellik, gerçek kullanıcı algısını ve ölçülebilir performansı sessizce kötüleştirebiliyor.
 
 ## 30. tur — og-image yenileme + sonuç kartına Mika damgası (2026-09-05)
 
