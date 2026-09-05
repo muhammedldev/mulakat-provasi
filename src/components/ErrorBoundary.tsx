@@ -29,7 +29,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (!this.state.hasError) return this.props.children;
 
     return (
-      <div className="app-shell">
+      <main className="app-shell">
         <div className="screen intro-screen">
           <div className="intro-badge">😕 Bir şeyler ters gitti</div>
           <h1 style={{ marginTop: 16 }}>Uygulama beklenmedik bir hatayla karşılaştı</h1>
@@ -40,7 +40,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             Yeniden Yükle
           </button>
         </div>
-      </div>
+      </main>
     );
   }
 }
