@@ -1,6 +1,20 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (28. tur — yeni marka maskotu: uygulama ikonu, splash ve PWA ikonları yenilendi).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (29. tur — maskotun resmi adı "Mika" oldu, arayüze ve açılış sahnesine entegre edildi).**
+
+## 29. tur — Maskotun adı "Mika": marka metni + uygulama içi kullanım + açılış sahnesi (2026-09-05)
+
+28. turda tasarlanan maskota kalıcı bir isim gerekiyordu (Duolingo'nun "Duo" dediği gibi). Kullanıcıyla birlikte netleştirildi: **uygulamanın görünen/öne çıkan adı artık "Mika"** oluyor (ör. "Mika · Mülakat Provası"), ama **teknik altyapıya (domain `mulakat-provasi.vercel.app`, GitHub repo adı, Capacitor `appId: com.muhammedldev.mulakatprovasi`) bilerek dokunulmadı** — bunlar canlı, değiştirmek ayrı ve riskli bir operasyon, kullanıcı sadece marka/görünen isim kararı verdi.
+
+Yapılanlar:
+- **`public/mika.svg`** eklendi — maskotun tek başına, şeffaf arka planlı, yeniden kullanılabilir versiyonu (ikon üretiminde kullanılan `icon-foreground` tasarımıyla birebir aynı).
+- **Ana menüdeki rozet** ("🎤 Adayım · Mülakat Provası" idi) artık gerçek Mika görseli + "Mika · Mülakat Provası" metni gösteriyor (`MainMenu.tsx`, yeni `.intro-badge-icon` CSS class'ı).
+- **`IntroSplash.tsx`** (yeni component) — uygulama soğuk açıldığında (arkadaş linkinden değil, normal girişte) bir kerelik, ~1.4 saniyelik bir tanıtım anı: Mika büyüyerek beliriyor, altında "Mika" yazısı beliriyor, tam ekran koyu mor-lacivert degrade üzerinde. Azaltılmış hareket ayarı açıksa hiç beklemeden direkt menüye geçiyor (`getReducedMotion()` kontrolü). `App.tsx`'te `AnimatePresence` ile sarmalanmış, `showIntro` state'i bir kere `false` olduktan sonra bir daha tetiklenmiyor (kullanıcı oyun içi bir moddan menüye dönerken tekrar görünmüyor, App component'i o sırada unmount olmuyor çünkü).
+- **`index.html`** title/meta (og:title, twitter:title, apple-mobile-web-app-title, description) "Mika · Mülakat Provası" / "Mika" olacak şekilde güncellendi. **`README.md`** başlığı da "Mika · Mülakat Provası" oldu.
+- **Mağaza listeleme metni** (26. turda taslağı çıkarılmıştı) "Mika" markasına göre revize edildi — bkz. sohbet geçmişi, henüz ayrı bir dosyaya kaydedilmedi.
+- `npm run build`/`npm run lint`/`npm run test` temiz, tarayıcıda hem rozet hem açılış sahnesi görsel olarak doğrulandı (açılış animasyonunun tam ortasını yakalamak bu oturumdaki tarayıcı test aracının kendi gecikmesi yüzünden zordu, ama DOM/computed-style üzerinden doğru şekilde render olduğu ve doğru sürede kaybolduğu kesin olarak doğrulandı).
+
+**Henüz yapılmadı, bilerek kapsam dışı bırakıldı**: `public/og-image.jpg` (sosyal paylaşım kartı) hâlâ eski görsel/"14 Başarım" metniyle duruyor — hem Mika'ya göre güncellenmesi hem başarım sayısının (17) düzeltilmesi gerekiyor, ayrı bir iş olarak not düşüldü (bkz. 28. tur notu). `package.json`'daki `name`/`description` alanları da (teknik/npm alanları, kullanıcıya görünmüyor) bilerek değiştirilmedi.
 
 ## 28. tur — Duolingo esintili maskot: yeni uygulama ikonu (2026-09-05)
 

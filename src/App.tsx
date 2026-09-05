@@ -1,6 +1,8 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { App as CapacitorApp, type URLOpenListenerEvent } from "@capacitor/app";
 import MainMenu from "./components/MainMenu";
+import IntroSplash from "./components/IntroSplash";
 import SoundToggle from "./components/SoundToggle";
 import ExitConfirmButton from "./components/ExitConfirmButton";
 import ToastStack, { type ToastItem } from "./components/ToastStack";
@@ -49,6 +51,9 @@ export default function App() {
   const [incomingChallenge, setIncomingChallenge] = useState<ChallengePayload | null>(initialChallenge);
   const [activeChallenge, setActiveChallenge] = useState<ChallengePayload | null>(null);
   const [mode, setMode] = useState<AppMode>(() => (initialChallenge() ? "challenge-intro" : "menu"));
+  // Bir arkadaş linkinden geliyorsa (challenge-intro) tanıtım sahnesiyle
+  // geciktirmiyoruz — sadece normal soğuk başlangıçta bir kere gösteriliyor.
+  const [showIntro, setShowIntro] = useState(() => !initialChallenge());
   const [classicStart, setClassicStart] = useState<{ seed?: string; sector?: SectorId }>({});
   const [rapidSector, setRapidSector] = useState<SectorId | undefined>(undefined);
   // "classic" veya "rapid" seçildiğinde araya giren Sektör Seç ekranının hangi
@@ -180,6 +185,7 @@ export default function App() {
 
   return (
     <main className="app-shell">
+      <AnimatePresence>{showIntro && <IntroSplash onDone={() => setShowIntro(false)} />}</AnimatePresence>
       <div className="bg-blob bg-blob--1" aria-hidden="true" />
       <div className="bg-blob bg-blob--2" aria-hidden="true" />
       <div className="bg-blob bg-blob--3" aria-hidden="true" />

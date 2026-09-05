@@ -1,6 +1,8 @@
-# Mülakat Provası
+# Mika · Mülakat Provası
 
 Üniversite öğrencileri ve yeni mezunlar için bir mülakat pratiği oyunu. React + TypeScript + Vite ile yazıldı, tamamen istemci tarafında çalışıyor — backend yok, hiçbir veri sunucuya gitmiyor.
+
+Uygulamanın maskotu Mika — gülümseyen mikrofon karakteri, ana menüde ve açılış anında karşınıza çıkıyor.
 
 Canlı: [mulakat-provasi.vercel.app](https://mulakat-provasi.vercel.app/)
 

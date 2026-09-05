@@ -57,7 +57,10 @@ export default function MainMenu({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="intro-badge">🎤 Adayım · Mülakat Provası</div>
+        <div className="intro-badge">
+          <img src="/mika.svg" alt="" className="intro-badge-icon" aria-hidden="true" />
+          Mika · Mülakat Provası
+        </div>
         <h1 className="intro-title-gradient">Mülakat odasına hazır mısın?</h1>
 
         <div className="player-status-row">

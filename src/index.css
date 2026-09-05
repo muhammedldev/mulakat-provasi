@@ -135,14 +135,48 @@ button {
 }
 
 .intro-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--accent-dark);
   background: var(--accent-soft);
-  padding: 6px 14px;
+  padding: 6px 14px 6px 8px;
   border-radius: 999px;
   margin-bottom: 12px;
+}
+
+.intro-badge-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.intro-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: linear-gradient(160deg, #221b4a, #141232);
+  cursor: pointer;
+}
+
+.intro-splash-mascot {
+  width: 140px;
+  height: 140px;
+}
+
+.intro-splash-name {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.02em;
 }
 
 .intro-title-gradient {

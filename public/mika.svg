@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="mikaGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b685fa"/>
+      <stop offset="55%" stop-color="#9a8afa"/>
+      <stop offset="100%" stop-color="#67a3f9"/>
+    </linearGradient>
+    <linearGradient id="mikaShine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g transform="rotate(-5 512 512)">
+    <path d="M312 400 Q252 470 284 560" stroke="url(#mikaGrad)" stroke-width="24" fill="none" stroke-linecap="round"/>
+    <path d="M712 400 Q772 470 740 560" stroke="url(#mikaGrad)" stroke-width="24" fill="none" stroke-linecap="round"/>
+    <rect x="392" y="640" width="240" height="48" rx="24" fill="url(#mikaGrad)" opacity="0.5"/>
+    <path d="M512 685 L512 762 M424 762 L600 762" stroke="url(#mikaGrad)" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <rect x="392" y="255" width="240" height="405" rx="120" fill="url(#mikaGrad)"/>
+    <rect x="392" y="255" width="240" height="190" rx="120" fill="url(#mikaShine)"/>
+    <circle cx="468" cy="410" r="20" fill="#141232"/>
+    <circle cx="570" cy="410" r="20" fill="#141232"/>
+    <path d="M452 470 q66 46 128 0" stroke="#141232" stroke-width="17" fill="none" stroke-linecap="round"/>
+  </g>
+  <path d="M735 255 l12 30 30 12 -30 12 -12 30 -12 -30 -30 -12 30 -12 z" fill="#8bd1fa"/>
+</svg>
