@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { getReducedMotion } from "../utils/settings";
 
-const AUTO_DISMISS_MS = 1400;
+const AUTO_DISMISS_MS = 700;
 
 // Uygulama ilk açıldığında bir kerelik gösterilen kısa marka anı — Mika'yı
 // tanıtıyor. Azaltılmış hareket açıksa hiç beklemeden direkt menüye geçiyor.

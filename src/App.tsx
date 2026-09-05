@@ -47,13 +47,20 @@ function initialChallenge(): ChallengePayload | null {
   return readChallengeFromLocation();
 }
 
+const INTRO_SEEN_KEY = "mulakat-provasi-intro-seen";
+
 export default function App() {
   const [incomingChallenge, setIncomingChallenge] = useState<ChallengePayload | null>(initialChallenge);
   const [activeChallenge, setActiveChallenge] = useState<ChallengePayload | null>(null);
   const [mode, setMode] = useState<AppMode>(() => (initialChallenge() ? "challenge-intro" : "menu"));
   // Bir arkadaş linkinden geliyorsa (challenge-intro) tanıtım sahnesiyle
-  // geciktirmiyoruz — sadece normal soğuk başlangıçta bir kere gösteriliyor.
-  const [showIntro, setShowIntro] = useState(() => !initialChallenge());
+  // geciktirmiyoruz. Ayrıca bu cihazda daha önce görüldüyse de bir daha
+  // göstermiyoruz — her seferinde aynı intro'yu izlemek can sıkıcı olurdu,
+  // üstelik Lighthouse'ta Speed Index'i gereksiz yere kötüleştiriyordu
+  // (tam ekranı kaplayan bir katman "gerçek" içerik boyanana kadar sayılmıyor).
+  const [showIntro, setShowIntro] = useState(
+    () => !initialChallenge() && !localStorage.getItem(INTRO_SEEN_KEY)
+  );
   const [classicStart, setClassicStart] = useState<{ seed?: string; sector?: SectorId }>({});
   const [rapidSector, setRapidSector] = useState<SectorId | undefined>(undefined);
   // "classic" veya "rapid" seçildiğinde araya giren Sektör Seç ekranının hangi
@@ -185,7 +192,16 @@ export default function App() {
 
   return (
     <main className="app-shell">
-      <AnimatePresence>{showIntro && <IntroSplash onDone={() => setShowIntro(false)} />}</AnimatePresence>
+      <AnimatePresence>
+        {showIntro && (
+          <IntroSplash
+            onDone={() => {
+              localStorage.setItem(INTRO_SEEN_KEY, "1");
+              setShowIntro(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
       <div className="bg-blob bg-blob--1" aria-hidden="true" />
       <div className="bg-blob bg-blob--2" aria-hidden="true" />
       <div className="bg-blob bg-blob--3" aria-hidden="true" />
