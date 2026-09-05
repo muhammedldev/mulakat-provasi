@@ -81,7 +81,7 @@ export function generateShareImage(data: ShareCardData): Promise<Blob | null> {
   ctx.textAlign = "left";
   ctx.fillStyle = "#f4f2ff";
   ctx.font = "800 27px 'Segoe UI', sans-serif";
-  ctx.fillText("🎤 Mülakat Provası", 56, 76);
+  ctx.fillText("🎤 Mika · Mülakat Provası", 56, 76);
 
   ctx.textAlign = "right";
   const dateStr = new Date().toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
