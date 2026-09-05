@@ -24,6 +24,89 @@ const rankSealColor: Record<ShareCardData["rank"], string> = {
   platinum: "#7dd3fc",
 };
 
+// Mika'yı (maskotumuz) doğrudan canvas path'leriyle çiziyor — bir <img> yükleyip
+// asenkron beklemek yerine, mika.svg'deki aynı koordinatları (1024x1024'lük
+// orijinal çizim alanında) transform'larla ölçekleyip yeniden kullanıyoruz.
+function drawMika(ctx: CanvasRenderingContext2D, cx: number, cy: number, size: number) {
+  const scale = size / 1024;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+  ctx.translate(-512, -512);
+
+  const bodyGrad = ctx.createLinearGradient(392, 255, 632, 660);
+  bodyGrad.addColorStop(0, "#b685fa");
+  bodyGrad.addColorStop(0.55, "#9a8afa");
+  bodyGrad.addColorStop(1, "#67a3f9");
+
+  ctx.save();
+  ctx.translate(512, 512);
+  ctx.rotate((-5 * Math.PI) / 180);
+  ctx.translate(-512, -512);
+
+  ctx.strokeStyle = bodyGrad;
+  ctx.lineCap = "round";
+  ctx.lineWidth = 24;
+  ctx.beginPath();
+  ctx.moveTo(312, 400);
+  ctx.quadraticCurveTo(252, 470, 284, 560);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(712, 400);
+  ctx.quadraticCurveTo(772, 470, 740, 560);
+  ctx.stroke();
+
+  ctx.fillStyle = bodyGrad;
+  ctx.globalAlpha = 0.5;
+  ctx.beginPath();
+  ctx.roundRect(392, 640, 240, 48, 24);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  ctx.lineWidth = 28;
+  ctx.beginPath();
+  ctx.moveTo(512, 685);
+  ctx.lineTo(512, 762);
+  ctx.moveTo(424, 762);
+  ctx.lineTo(600, 762);
+  ctx.stroke();
+
+  ctx.fillStyle = bodyGrad;
+  ctx.beginPath();
+  ctx.roundRect(392, 255, 240, 405, 120);
+  ctx.fill();
+
+  ctx.fillStyle = "#141232";
+  ctx.beginPath();
+  ctx.arc(468, 410, 20, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(570, 410, 20, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.lineWidth = 17;
+  ctx.strokeStyle = "#141232";
+  ctx.beginPath();
+  ctx.moveTo(452, 470);
+  ctx.quadraticCurveTo(516, 516, 580, 470);
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.fillStyle = "#8bd1fa";
+  ctx.beginPath();
+  ctx.moveTo(735, 255);
+  ctx.lineTo(747, 285);
+  ctx.lineTo(777, 297);
+  ctx.lineTo(747, 309);
+  ctx.lineTo(735, 339);
+  ctx.lineTo(723, 309);
+  ctx.lineTo(693, 297);
+  ctx.lineTo(723, 285);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
 function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
   const words = text.split(" ");
   const lines: string[] = [];
@@ -77,11 +160,12 @@ export function generateShareImage(data: ShareCardData): Promise<Blob | null> {
   glow(120, 950, 300, "rgba(13,148,136,0.24)");
   glow(400, 260, 260, `${sealColor}26`);
 
-  // Header
+  // Header — gerçek Mika çizimi, emoji yerine.
+  drawMika(ctx, 74, 60, 56);
   ctx.textAlign = "left";
   ctx.fillStyle = "#f4f2ff";
   ctx.font = "800 27px 'Segoe UI', sans-serif";
-  ctx.fillText("🎤 Mika · Mülakat Provası", 56, 76);
+  ctx.fillText("Mika · Mülakat Provası", 104, 68);
 
   ctx.textAlign = "right";
   const dateStr = new Date().toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
@@ -189,17 +273,20 @@ export function generateShareImage(data: ShareCardData): Promise<Blob | null> {
     ctx.fillText(line, cardX + 30, cardY + 76 + i * 27);
   });
 
-  // Footer — küçük bir marka rozeti, itiraf/dipnot havası yerine.
+  // Footer — küçük bir "Mika onaylı" damgası, itiraf/dipnot havası yerine.
   ctx.textAlign = "center";
   ctx.font = "700 17px 'Segoe UI', sans-serif";
-  const footerW = ctx.measureText(data.footer).width + 40;
+  const footerTextW = ctx.measureText(data.footer).width;
+  const footerIconSpace = 34;
+  const footerW = footerTextW + footerIconSpace + 44;
   const footerY = canvas.height - 56;
   ctx.fillStyle = "rgba(255,255,255,0.08)";
   ctx.beginPath();
-  ctx.roundRect(canvas.width / 2 - footerW / 2, footerY - 26, footerW, 40, 20);
+  ctx.roundRect(canvas.width / 2 - footerW / 2, footerY - 26, footerW, 44, 22);
   ctx.fill();
+  drawMika(ctx, canvas.width / 2 - footerW / 2 + 24, footerY - 4, 30);
   ctx.fillStyle = "rgba(244,242,255,0.85)";
-  ctx.fillText(data.footer, canvas.width / 2, footerY + 1);
+  ctx.fillText(data.footer, canvas.width / 2 + footerIconSpace / 2, footerY + 1);
 
   return new Promise((resolve) => canvas.toBlob((blob) => resolve(blob), "image/png"));
 }

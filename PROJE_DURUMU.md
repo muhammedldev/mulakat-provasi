@@ -1,6 +1,16 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (29. tur — maskotun resmi adı "Mika" oldu, arayüze ve açılış sahnesine entegre edildi).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (30. tur — og-image yenilendi, sonuç kartına gerçek Mika çizimi + "Mika ile ölçüldü" damgası eklendi).**
+
+## 30. tur — og-image yenileme + sonuç kartına Mika damgası (2026-09-05)
+
+Önceki turda kapsam dışı bırakılan iki iş tamamlandı:
+
+- **`public/og-image.jpg` tamamen yenilendi.** Eski tasarım (3 mülakatçı illüstrasyonu + "14 Başarım") yerine Mika'yı öne çıkaran yeni bir kompozisyon: solda başlık ("Mika" + "Mülakat Provası" alt başlığı), etiket ("Gerçek mülakatlar gibi..."), 3 özellik rozeti, doğru başarım sayısı ("17 Başarım"), sağda büyük Mika çizimi + parıltı. SVG olarak tasarlanıp `resvg-cli` ile 1200×630 rasterize edildi, sonra tarayıcı canvas'ı üzerinden JPEG'e (kalite 0.88) çevrildi — PNG 181KB idi, JPEG 49KB (**−73%**), önceki turların "bu görsel her ziyaretçiye PWA tarafından önbelleğe alınıyor" dersine sadık kalındı. Mika'nın koordinatlarını (kol/gövde/göz/gülümseme) orijinal 1024×1024 çizim alanından `translate+rotate+scale` ile ölçeklerken ilk denemede taşma oldu (scale 1.55 ile sağ/üst kenarlardan taşıyordu) — bounding box'ı elle hesaplayıp (520×507) doğru ölçeği (1.0) ve merkezi (900,330) bulup düzeltildi.
+- **Sonuç kartına (`utils/shareImage.ts`) gerçek Mika çizimi eklendi.** Yeni `drawMika(ctx, cx, cy, size)` fonksiyonu — bir `<img>` yükleyip asenkron beklemek yerine, mika.svg'nin path'lerini doğrudan Canvas 2D komutlarına çevirip senkron çiziyor (aynı `translate/rotate/scale` tekniği). İki yerde kullanıldı: (1) kart başlığında 🎤 emojisinin yerine, (2) alttaki marka rozetinde bir "damga" gibi. Kullanıcının istediği "Mika ile ölçüldü" metni `ResultScreen.tsx`'teki `footer` prop'una yazıldı (eskisi: "mulakat-provasi ile hazırlandı"). Vite dev server'ın canlı TS import'unu kullanan geçici bir debug sayfasıyla (`public/debug-share.html`, iş bitince silindi) gerçek çıktı piksel piksel görsel olarak doğrulandı — hem header'daki küçük Mika (56px) hem footer'daki damga (30px) net ve tanınabilir çıktı.
+- `npm run build`/`lint`/`test` temiz.
+
+## 29. tur — Maskotun adı "Mika": marka metni + uygulama içi kullanım + açılış sahnesi (2026-09-05)
 
 ## 29. tur — Maskotun adı "Mika": marka metni + uygulama içi kullanım + açılış sahnesi (2026-09-05)
 

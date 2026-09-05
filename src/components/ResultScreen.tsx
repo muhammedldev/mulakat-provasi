@@ -94,7 +94,7 @@ export default function ResultScreen({
           ],
           tipLabel: statLabels[weakStat],
           tip,
-          footer: "mulakat-provasi ile hazırlandı",
+          footer: "Mika ile ölçüldü",
         },
         "mulakat-provasi-sonuc-raporu.png"
       );
