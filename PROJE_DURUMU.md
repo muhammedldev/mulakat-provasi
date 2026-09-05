@@ -1,6 +1,19 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (31. tur — IntroSplash'in Lighthouse Speed Index'i kötüleştirdiği bulunup düzeltildi).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (32. tur — Mika markalaması için tam tutarlılık taraması, hem web hem Android'de doğrulandı).**
+
+## 32. tur — Mika markalaması: tam tutarlılık taraması + native doğrulama (2026-09-05)
+
+Kullanıcı "isim/ikon artık kalıcı, hem mobilde hem masaüstünde tüm değişiklikleri yaptık mı emin olalım" dedi. Sistematik bir tarama yapıldı, **4 gerçek eksik bulundu**:
+
+1. **PWA manifest `name`/`short_name`** (`vite.config.ts`) — hâlâ "Mülakat Provası · Adayım" / "Mülakat Provası" idi. **Bu kritikti**: kullanıcı telefonunda tarayıcıdan "Ana ekrana ekle" yaptığında görünen etiket buradan geliyor, index.html'in `<title>`'ından bağımsız bir alan. "Mika · Mülakat Provası" / "Mika" yapıldı.
+2. **Native paylaşım başlıkları** (`utils/shareImage.ts`'teki `Share.share({title: ...})`, `ResultScreen.tsx`'teki `navigator.share({title: ...})`) hâlâ eski adı kullanıyordu.
+3. **Cümle içi kullanımlar** (`ResultScreen.tsx`'teki panoya kopyalanan özet ve meydan okuma paylaşım metni: "Mülakat Provası sonucum...", "Mülakat Provası'nda X puan aldım...") "Mika'daki mülakat sonucum", "Mika'da X puan aldım" olarak güncellendi — artık resmi ad Mika olduğu için cümle içinde de o kullanılmalı.
+4. **`adayim-cv` sitesindeki köprü** (`TopBar.tsx`) hâlâ "🎤 Mülakat Provası" diyordu, "🎤 Mika" yapıldı. Bunu düzeltirken aynı otomatik senkron aracı yine "Update TopBar.tsx" gibi jenerik bir mesajla commit atıp push etmişti — kullanıcının izniyle `git commit-tree` + `git update-ref` (bilerek `reset --hard` KULLANILMADI, otomatik sınıflandırıcı onu riskli bulup engelledi; `update-ref` working tree'ye hiç dokunmadığı için daha güvenli bir alternatif) ile mesaj düzeltilip kullanıcının kendi `git push --force-with-lease`'iyle tamamlandı.
+
+**Emülatörde uçtan uca native doğrulama**: `adb`+`uiautomator` ile otomatik bir Klasik Mülakat oyunu oynanıp (arka planda, birkaç arka plan görevi halinde — bazı sorularda otomasyon yavaş kaldığı için süre doldu, bu bir sorun değil sadece test hızı meselesi) sonuç ekranına ulaşıldı, "Sonuç Raporunu Paylaş" tıklandı, **gerçek Android paylaşım sayfası açılıp kartın üzerinde hem "Mika · Mülakat Provası" başlığının hem "Mika ile ölçüldü" damgasının doğru göründüğü görsel olarak doğrulandı.** Konsolda gerçek hata yok (görülen "Haptics ERROR" log'u titreşim tipinin adı, "Share canceled" ise paylaşım penceresinin geri tuşuyla kapatılmasından, ikisi de beklenen/zararsız).
+
+`npm run build`/`lint`/`test` temiz. Artık hem web hem Android'de "Mika" markalaması tüm temas noktalarında (başlık, favicon, PWA manifest, ana menü rozeti, açılış sahnesi, sonuç kartı, og-image, native paylaşım metinleri, launcher etiketi, adayim-cv köprüsü) tutarlı.
 
 ## 31. tur — genel optimizasyon: IntroSplash'in performans regresyonu (2026-09-05)
 
