@@ -3,9 +3,27 @@ import { motion } from "framer-motion";
 import { questionPool } from "../data/questions";
 import SpeakButton from "./SpeakButton";
 import { playClick } from "../utils/sound";
-import { isRecordingSupported, startRecording, type ActiveRecording } from "../utils/recording";
+import {
+  isRecordingSupported,
+  startRecording,
+  type ActiveRecording,
+  type RecordingStats,
+} from "../utils/recording";
 
 const ROUND_SIZE = 8;
+
+// Kaydını dinlerken bakılacak öz-değerlendirme maddeleri — biz hiçbir otomatik
+// yargı vermiyoruz, kullanıcı kendi kaydını bu sorularla kendi değerlendiriyor.
+const SELF_CHECK_ITEMS = [
+  "Somut bir örnek ya da deneyim verdin mi?",
+  "Sonucu ya da öğrendiğini net söyledin mi?",
+  "Çok uzatmadan, toparlayarak bitirdin mi?",
+  "'Şey', 'yani', 'ıı' gibi dolgu kelimeleri azaltabildin mi?",
+];
+
+function formatSeconds(ms: number): string {
+  return (ms / 1000).toFixed(1).replace(".0", "");
+}
 // TTS ile dinlerken ya da kayıt yaparken can sıkıcı olmasın diye, bu moda
 // sadece kısa/tek cümlelik soruları alıyoruz (havuzdaki 92 sorunun ortalaması
 // zaten ~87 karakter, bu eşik neredeyse hepsini kapsıyor, en uzun birkaç
@@ -37,6 +55,8 @@ export default function SpeakingPracticeMode({ onExit }: { onExit: () => void })
   const [recordPhase, setRecordPhase] = useState<RecordPhase>("idle");
   const [seconds, setSeconds] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [stats, setStats] = useState<RecordingStats | null>(null);
+  const [checked, setChecked] = useState<boolean[]>(() => SELF_CHECK_ITEMS.map(() => false));
   const [micError, setMicError] = useState<string | null>(null);
   const recordingRef = useRef<ActiveRecording | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -52,6 +72,8 @@ export default function SpeakingPracticeMode({ onExit }: { onExit: () => void })
   const discardAudio = () => {
     if (audioUrl) URL.revokeObjectURL(audioUrl);
     setAudioUrl(null);
+    setStats(null);
+    setChecked(SELF_CHECK_ITEMS.map(() => false));
   };
 
   useEffect(() => {
@@ -103,9 +125,14 @@ export default function SpeakingPracticeMode({ onExit }: { onExit: () => void })
     const active = recordingRef.current;
     recordingRef.current = null;
     if (!active) return;
-    const blob = await active.stop();
+    const { blob, stats: recordingStats } = await active.stop();
     setAudioUrl(URL.createObjectURL(blob));
+    setStats(recordingStats);
     setRecordPhase("recorded");
+  };
+
+  const toggleCheck = (i: number) => {
+    setChecked((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
   };
 
   const handleNext = () => {
@@ -240,6 +267,27 @@ export default function SpeakingPracticeMode({ onExit }: { onExit: () => void })
           >
             <p className="feedback-text">🔁 Kaydını dinle:</p>
             <audio controls src={audioUrl} className="record-playback" />
+
+            {stats && (
+              <p className="record-stats">
+                {formatSeconds(stats.durationMs)}sn konuştun
+                {stats.pauseAnalysis &&
+                  (stats.pauseAnalysis.silenceCount > 0
+                    ? ` · ${stats.pauseAnalysis.silenceCount} kez duraksadın (en uzunu ${formatSeconds(stats.pauseAnalysis.longestSilenceMs)}sn)`
+                    : " · göze çarpan bir duraksama yok")}
+              </p>
+            )}
+
+            <div className="self-check">
+              <p className="self-check-title">Dinlerken kendine sor:</p>
+              {SELF_CHECK_ITEMS.map((item, i) => (
+                <label className="self-check-item" key={item}>
+                  <input type="checkbox" checked={checked[i]} onChange={() => toggleCheck(i)} />
+                  <span>{item}</span>
+                </label>
+              ))}
+            </div>
+
             <div className="result-actions">
               <button className="btn btn-secondary" onClick={handleStartRecording}>
                 Tekrar Kaydet
