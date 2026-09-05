@@ -1,6 +1,15 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (32. tur — Mika markalaması için tam tutarlılık taraması, hem web hem Android'de doğrulandı).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (33. tur — gizlilik politikası sayfası eklendi, gereksiz bir izin kaldırıldı — Play Store gönderiminde sorun çıkarmasın diye).**
+
+## 33. tur — yayın öncesi risk taraması: gizlilik politikası + gereksiz izin (2026-09-05)
+
+Kullanıcı "sonra karşımıza çıkmasın, temelde eksik bir şey var mı" diye sordu — marka/kod hatası değil, **Play Store gönderiminde ileride tıkanmaya yol açacak** iki gerçek eksik bulundu:
+
+1. **Gizlilik politikası sayfası yoktu.** Play Console, RECORD_AUDIO gibi hassas izin kullanan uygulamalarda gönderim sırasında bir Gizlilik Politikası URL'i zorunlu tutuyor — bu olmadan mağazaya yükleme yapılamıyor. `public/gizlilik.html` eklendi (statik sayfa, React app'e dokunmuyor) — ne toplandığı (hiçbir şey), mikrofon/bildirim izinlerinin neden istendiği, meydan okuma linkinin nasıl çalıştığı gibi standart maddeler var. Canlıya çıkınca `mulakat-provasi.vercel.app/gizlilik.html` adresinden erişilebilir olacak, Play Console formunda bu URL kullanılacak.
+2. **Kullanılmayan bir "hassas" izin bildiriliyordu.** `@capacitor/local-notifications` kütüphanesi `SCHEDULE_EXACT_ALARM` iznini kendi manifest'inden otomatik ekliyor (merge sonrası APK'da çıkıyor, kaynak `AndroidManifest.xml`'de hiç yazılı değildi) — ama günlük hatırlatıcımız zaten `isExactNotification: false` kullanıyor (22. tur'da bilinçli olarak inexact seçilmişti), yani bu izne hiç ihtiyacımız yok. Play Console incelemesinde kullanılmayan hassas izinler için gerekçe formu doldurmak istenebiliyor — gereksiz sürtünme. `AndroidManifest.xml`'e `xmlns:tools` + `tools:node="remove"` ile manifest-merge'den çıkarıldı. Merge edilmiş manifest'te (`app/build/intermediates/merged_manifest/`) hem bu iznin kalktığı hem gerçekten gereken `POST_NOTIFICATIONS`'ın durduğu doğrulandı; emülatörde Günlük Hatırlatıcı'yı açıp izin diyaloğunun (ki artık "Allow **Mika** to send you notifications?" diyor) sorunsuz çalıştığı, hatırlatıcının "Açık 🔔" olarak planlandığı canlı test edildi.
+
+`android/app/src/main/AndroidManifest.xml`, `versionCode`/`versionName`/`targetSdkVersion` (36, güncel) kontrol edildi, sorun yok — ilk yayın için `versionCode 1` zaten doğru.
 
 ## 32. tur — Mika markalaması: tam tutarlılık taraması + native doğrulama (2026-09-05)
 

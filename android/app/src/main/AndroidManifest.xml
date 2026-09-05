@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -51,4 +51,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- @capacitor/local-notifications bu izni kendi manifest'inden otomatik
+         ekliyor, ama günlük hatırlatıcımız isExactNotification:false kullanıyor
+         (bkz. utils/notifications.ts) — kesin alarma hiç ihtiyacımız yok.
+         Kullanılmayan bu "hassas" izni Play Console incelemesinde gereksiz
+         gerekçe sorusu doğurmasın diye merge'den çıkarıyoruz. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
 </manifest>
