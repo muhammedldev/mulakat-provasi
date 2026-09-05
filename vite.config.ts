@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'og-image.jpg'],
       manifest: {
-        name: 'Mülakat Provası · Adayım',
-        short_name: 'Mülakat Provası',
+        name: 'Mika · Mülakat Provası',
+        short_name: 'Mika',
         description:
           'Üniversite öğrencileri ve yeni mezunlar için eğlenceli, güncel mülakat simülasyonu oyunu.',
         lang: 'tr',

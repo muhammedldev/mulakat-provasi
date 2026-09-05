@@ -105,7 +105,7 @@ export default function ResultScreen({
 
   const handleShare = async () => {
     playClick();
-    const summary = `Mülakat Provası sonucum: ${profile.emoji} ${profile.title} (${score}/100)\nHazırlık ${stats.hazirlik} · İletişim ${stats.iletisim} · Özgüven ${stats.ozguven}`;
+    const summary = `Mika'daki mülakat sonucum: ${profile.emoji} ${profile.title} (${score}/100)\nHazırlık ${stats.hazirlik} · İletişim ${stats.iletisim} · Özgüven ${stats.ozguven}`;
     try {
       await navigator.clipboard.writeText(summary);
       setCopied(true);
@@ -118,10 +118,10 @@ export default function ResultScreen({
   const handleChallenge = async () => {
     playClick();
     const url = buildChallengeUrl({ seed, score, rank: profile.rank, title: profile.title, sector });
-    const shareText = `Mülakat Provası'nda ${score}/100 puan aldım (${profile.title}). Aynı soruları çözüp beni geçebilir misin?`;
+    const shareText = `Mika'da ${score}/100 puan aldım (${profile.title}). Aynı soruları çözüp beni geçebilir misin?`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Mülakat Provası Meydan Okuması", text: shareText, url });
+        await navigator.share({ title: "Mika Meydan Okuması", text: shareText, url });
         tryUnlock("meydan-okuyucu", onAchievement);
         return;
       } catch {

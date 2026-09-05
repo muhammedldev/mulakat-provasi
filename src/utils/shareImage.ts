@@ -311,7 +311,7 @@ export async function downloadShareImage(data: ShareCardData, filename: string):
     try {
       const base64 = await blobToBase64(blob);
       const written = await Filesystem.writeFile({ path: filename, data: base64, directory: Directory.Cache });
-      await Share.share({ title: "Mülakat Provası Sonuç Raporu", url: written.uri });
+      await Share.share({ title: "Mika · Mülakat Provası Sonuç Raporu", url: written.uri });
       return true;
     } catch {
       return false;
