@@ -196,6 +196,14 @@ button {
   color: var(--text-muted);
 }
 
+.app-credit {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
 .btn {
   border: none;
   border-radius: 14px;
@@ -2162,6 +2170,39 @@ button {
 
   .skill-path-row--right {
     flex-direction: row;
+  }
+
+  /* Soru ekranı dar telefonlarda (375px gibi) uzun seçenekli sorularda
+     ekran boyu aşılıp kaydırma gerektiriyordu — burada boşlukları sıkılaştırıp
+     bunu mümkün olduğunca azaltıyoruz. Çok uzun seçeneklerde yine de bir
+     miktar kaydırma gerekebilir, bu normal. */
+  .hud-panel {
+    margin-bottom: 12px;
+  }
+
+  .progress-wrap {
+    margin-bottom: 10px;
+  }
+
+  .scene-text {
+    font-size: 0.82rem;
+    margin-bottom: 8px;
+  }
+
+  .timer-row {
+    margin-bottom: 8px;
+  }
+
+  .speech-bubble {
+    margin: 10px 0 14px;
+  }
+
+  .options-list {
+    gap: 8px;
+  }
+
+  .option-btn {
+    padding: 11px 14px;
   }
 }
 

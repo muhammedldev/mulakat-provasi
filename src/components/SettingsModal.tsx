@@ -156,6 +156,7 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
         En iyi skorun, başarımların ve oyun istatistiklerin yalnızca bu cihazda tutulur. Sıfırlama
         işlemi geri alınamaz.
       </p>
+      <p className="app-credit">Dev by Muhammed</p>
     </Modal>
   );
 }

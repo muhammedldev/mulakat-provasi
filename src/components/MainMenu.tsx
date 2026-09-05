@@ -182,6 +182,7 @@ export default function MainMenu({
         <p className="intro-footnote">
           İlerlemen sadece bu telefonda/tarayıcıda tutulur, hiçbir yere gönderilmez.
         </p>
+        <p className="app-credit">Dev by Muhammed</p>
       </motion.div>
 
       <Suspense fallback={null}>
