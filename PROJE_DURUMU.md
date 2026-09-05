@@ -1,6 +1,21 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (27. tur — geliştirici imzası + mobilde soru ekranı sıkıştırması).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (28. tur — yeni marka maskotu: uygulama ikonu, splash ve PWA ikonları yenilendi).**
+
+## 28. tur — Duolingo esintili maskot: yeni uygulama ikonu (2026-09-05)
+
+Kullanıcı Play Store hazırlığı sırasında mevcut soyut cıvata logosunun yerine Duolingo'nun baykuşu gibi akılda kalıcı bir maskot istedi. Birkaç tur iterasyon sonrası karar verilen tasarım: mevcut mor→mavi marka paletinde, gülümseyen/yüzü olan bir mikrofon karakteri — hem "Adayım · Mülakat Provası" rozetindeki 🎤'ye hem Konuşma Pratiği moduna doğrudan bağlanıyor. Sürecin akışı ve öğrenilenler:
+
+- **İterasyon**: önce 3 farklı konsept (cıvatayı karaktere çevirme, mikrofon maskotu, konuşma balonu+mikrofon piktogramı) SVG olarak taslak çizilip kullanıcıya `SendUserFile` ile gerçek dosya olarak gönderildi — daha önce sadece kendi tarayıcımda inceleyip metinle anlatmam kullanıcının gerçekte hiçbir şey görmediği anlamına geliyordu, bu turda düzeltildi. Sonra "vivid" (doygun) ve "soft" (pastel) iki renk varyasyonu, ardından ikisinin **matematiksel orta noktası** (RGB ortalaması) üretildi.
+- **Duolingo'dan asıl alınan ders arka planla ilgiliydi**: maskotun kareyi neredeyse dolduracak şekilde büyütülüp arka planın sade/düz tek renge indirilmesi — önceki tasarımda maskot ortada küçük kalıp çok fazla boş arka plan alanı vardı, küçük ikon boyutunda tanınırlığı zayıflatıyordu.
+- **Android adaptive icon safe-zone'u dikkate alındı**: `assets/icon.png` (tam kare, arka plan+büyütülmüş maskot, iOS/PWA/"any" tipi ikonlarda kullanılıyor) ile `assets/icon-foreground.png` (şeffaf arka plan, maskot normal/küçük ölçekte — Android'in dairesel/squircle maskeleri kırpmasın diye güvenli bölgede) **bilerek farklı ölçeklerde** üretildi. `assets/icon-background.png` sade düz gradyan.
+- **Gerçek bir render hatası bulunup düzeltildi**: splash görselinde (2732×2732) yatay bir "dikiş" çizgisi fark edildi, önce gradyan/glow kaynaklı sanıp ikisini de kaldırdım, çizgi hâlâ duruyordu — piksel piksel inceleyince (`pngjs` ile) asıl PNG dosyasının %100 düz/tek renk olduğu, çizginin sadece görüntüleyicimin önizleme sıkıştırmasından kaynaklanan bir yanılsama olduğu ortaya çıktı. **Ders**: bir görselde "bozukluk" şüphesi varsa önce ham piksel verisini kontrol et, göze güvenme.
+- **Üretim zinciri**: SVG kaynaklarından `resvg-cli` (npx) ile doğru boyutlarda (1024, 2732, 192, 512) PNG üretildi, `npx @capacitor/assets generate --android` ile 123 Android ikon/splash dosyası otomatik türetildi, PWA ikonları (`pwa-192.png`, `pwa-512.png`, `pwa-maskable-512.png` — maskable için ayrıca güvenli-bölge kompozisyonu) ve `favicon.svg` (küçük boyutta okunabilirlik için kollar/parıltı çıkarılmış sadeleştirilmiş versiyon) elle güncellendi.
+- **Emülatörde gerçek doğrulama**: uygulama çekmecesinde diğer uygulamalar arasında yeni ikon net ve dikkat çekici görünüyor; splash ekranında (Android 12+ SplashScreen API kendi adaptive-icon tabanlı gösterimini kullanıyor, bizim `drawable/splash.png`'imiz eski API'ler için) maskot temiz bir daire içinde çıkıyor; konsol hatasız (aynı bilinen zararsız "safe area CSS" uyarısı dışında).
+
+**Bilerek yapılmadı, ayrı bir görev olarak not düşülüyor**: `public/og-image.jpg` (sosyal paylaşım kartı) hâlâ eski üç-mülakatçı illüstrasyon tarzında ve **"14 Başarım" yazıyor — güncel sayı 17**, bu bir tutarsızlık ama şimdiki ikon işinin kapsamı dışında tutuldu, ayrıca ele alınmalı.
+
+`npm run build`/`npm run lint`/`npm run test` temiz.
 
 ## 27. tur — kapsamlı fonksiyon taraması, geliştirici imzası, mobil kaydırma düzeltmesi (2026-09-05)
 
