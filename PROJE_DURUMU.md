@@ -1,6 +1,19 @@
 # Mülakat Provası — Proje Durumu (Handoff Notu)
 
-Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-04 (24. tur — yeni mod: Konuşma Pratiği, mikrofon kaydı ile).**
+Bu dosya, yeni bir Claude sohbetinin bu projeye sıfırdan context kaybı olmadan devam edebilmesi için yazıldı. **Son güncelleme: 2026-09-05 (25. tur — Konuşma Pratiği'ne duraksama analizi + öz-değerlendirme rehberi eklendi).**
+
+## 25. tur — Konuşma Pratiği'ne değer katma: duraksama analizi + öz-değerlendirme (2026-09-05)
+
+Kullanıcı haklı bir noktaya değindi: "insanlar kendi sesini kaydedip sonra dinlemesin, bi anlamı olsun istiyorum". Ücretsiz/native STT ile doğru cevap puanlaması yapmanın riskli olduğu konuşulduktan sonra (Türkçe STT doğruluğu iş jargonunda düşer, üstelik açık uçlu cevaplarda "doğru" diye bir referans da yok), iki dil/STT bağımsız, hata payı sıfır ekleme yapıldı:
+
+1. **Duraksama analizi** (`src/utils/recording.ts`) — `AudioContext` + `AnalyserNode` ile ham ses genliği (RMS) 200ms aralıklarla ölçülüyor, 700ms+ süren sessizlikler "duraksama" sayılıyor. Kayıt bitince toplam süre, duraksama sayısı ve en uzun duraksama gösteriliyor ("22.8sn konuştun · 1 kez duraksadın (en uzunu 22.6sn)" gibi).
+2. **Öz-değerlendirme rehberi** (`SpeakingPracticeMode.tsx`) — kayıt bitince 4 maddelik bir checklist çıkıyor ("Somut bir örnek verdin mi?", "Sonucu net söyledin mi?" vb.), kullanıcı kendi kaydını dinlerken işaretliyor. Hiçbir otomatik yargı yok, biz puan vermiyoruz.
+
+**Kod incelemesinde (test öncesi) bulunup düzeltilen 2 gerçek bug:** `AudioContext` kurulumu (`new AudioContext()`/`createAnalyser()`) hata fırlatırsa, `getUserMedia`+`recorder.start()` zaten çalışmış olacağından mikrofon **süresiz açık kalabilirdi** — hiçbir referans dönmediği için kapatma imkanı olmuyordu. Ses analizi kurulumu ayrı bir try/catch'e alındı; başarısız olursa kayıt yine normal çalışıyor, sadece duraksama istatistiği gösterilmiyor (`pauseAnalysis: null`). İkincisi: ölçüm başarısız olduğunda arayüz yanlışlıkla "duraksama yok" diyebiliyordu — "ölçülemedi" ile "gerçekten duraksamadı" ayrımı netleştirildi.
+
+**Emülatörde uçtan uca doğrulama, `dumpsys audio` ile OS seviyesinde çapraz kontrol dahil.** Test sırasında bir ara hiç dokunulmamışken 1.4 saniyelik bir kayıt olmuş gibi göründü — ciddiye alınıp `force-stop` + temiz baştan, her tıklamadan önce `uiautomator dump` ile kesin koordinat alınarak yeniden test edildi. Sonuç: kod hatası değil, hızlı otomasyonda kaymış/eski koordinat kullanımı yüzünden yanlış düğmeye basılmış (arayüz her kayıtta istatistik metninin uzunluğuna göre birkaç piksel kayıyor — "Sıradaki Soru" gibi düğmelerin bounds'unu ÖNCEKİ ekran görüntüsünden tahmin etmek yerine her seferinde taze `uiautomator dump` almak gerekiyor). "Hiç dokunma → hiç kayıt başlamıyor" senaryosu ayrıca kanıtlandı. `adb shell dumpsys audio | grep "rec start\|rec stop"` komutu, bir recording session'ın OS seviyesinde gerçekten ne zaman açılıp kapandığını (riid/session id ile) gösteriyor — WebView/JS loglarına güvenemediğimiz durumlarda kesin doğruluk kaynağı olarak faydalı oldu. Ayrıca doğrulandı: "Tekrar Kaydet" eski kaydı sızdırmadan yeni kayıt açıyor (tek INPUT stream), izin bir kez verilince kalıcı, ve gerçek unmount'ta (kullanıcı "Çık" onayı verince) mikrofon düzgün serbest bırakılıyor — ama sadece geri tuşuna basmak (onay diyalogu açılırken) bileşeni unmount ETMİYOR, kayıt o sırada arka planda devam ediyor (beklenen davranış, bug değil).
+
+`npm run build`/`npm run lint`/`npm run test` temiz.
 
 ## 24. tur — Konuşma Pratiği modu eklendi (2026-09-04)
 
